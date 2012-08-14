@@ -1,0 +1,12 @@
+\#*#
+*#
+.#*
+.*~
+*~
+*.elc
+*.log
+.DS_Store
+locals.zsh
+.zsh_history
+projects.zsh
+*.swp
