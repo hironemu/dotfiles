@@ -10,3 +10,4 @@ locals.zsh
 .zsh_history
 projects.zsh
 *.swp
+*.dat
