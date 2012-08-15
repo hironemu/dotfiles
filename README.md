@@ -2,7 +2,7 @@
 
 #### oh-my-zshの設定とか
 
-	$ ln -s ~/dotfiles/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc 
+	$ $ ln -s ~/dotfiles/.zshrc ~/.zshrc 
 	
 #### .emacs.dのシンボリックリンクを作成
 
