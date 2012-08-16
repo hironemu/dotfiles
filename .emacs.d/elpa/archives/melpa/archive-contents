@@ -12,7 +12,7 @@
 		    [(20120622)
 		     nil "zen and art color theme for GNU Emacs 24 [source: github]" single])
  (yasnippet .
-	    [(20120811)
+	    [(20120815)
 	     nil "Yet another snippet extension for Emacs. [source: github]" tar])
  (yari .
        [(20110417)
@@ -187,7 +187,7 @@
 	      [(20090723)
 	       nil "Same frame speedbar [source: wiki]" single])
  (solarized-theme .
-		  [(20120613)
+		  [(20120630)
 		   nil "The Solarized color theme, ported to Emacs. [source: github]" tar])
  (smooth-scrolling .
 		   [(20111206)
@@ -214,17 +214,17 @@
 		  [(20120713)
 		   nil "A color coded smart mode-line. [source: github]" single])
  (slime-ritz .
-	     [(20120612)
+	     [(20120814)
 	      nil "slime extensions for ritz [source: github]" single])
  (slime .
 	[(20120813)
 	 nil "Superior Lisp Interaction Mode for Emacs [source: git]" tar])
  (slim-mode .
-	    [(20120623)
+	    [(20120814)
 	     nil "Major mode for editing Slim files [source: github]" single])
  (simple-httpd .
-	       [(20120812)
-		nil "HTTP/1.0 web server [source: github]" tar])
+	       [(20120815)
+		nil "pure elisp HTTP server [source: github]" tar])
  (shimbun .
 	  [(20120719)
 	   nil "No description available. [source: github]" tar])
@@ -266,11 +266,16 @@
  (rvm .
       [(20120714)
        nil "Emacs integration for rvm [source: github]" single])
+ (rust-mode .
+	    [(20120813)
+	     ((cm-mode
+	       (0 1 0)))
+	     "A major emacs mode for editing Rust source code [source: github]" single])
  (ruby-tools .
 	     [(20120528)
 	      nil "Collection of handy functions for ruby-mode [source: github]" single])
  (ruby-test-mode .
-		 [(20120201)
+		 [(20120814)
 		  nil "Minor mode for Behaviour and Test Driven [source: github]" single])
  (ruby-mode .
 	    [(20110630)
@@ -315,7 +320,7 @@
 	  [(20110405)
 	   nil "display the relative location of the region, in the fringe. [source: wiki]" single])
  (revive .
-	 [(20120813)
+	 [(20120814)
 	  nil "Resume Emacs [source: github]" single])
  (restclient .
 	     [(20120719)
@@ -339,7 +344,7 @@
 		     [(20120428)
 		      nil "Highlight nested parens, brackets, braces a different color at each depth. [source: github]" single])
  (quickrun .
-	   [(20120722)
+	   [(20120815)
 	    nil "Run commands quickly [source: github]" single])
  (quick-buffer-switch .
 		      [(20120704)
@@ -348,7 +353,7 @@
 	       [(20120505)
 		nil "outline mode extension for python mode [source: wiki]" single])
  (python .
-	 [(20120719)
+	 [(20120814)
 	  nil "Python's flying circus support for Emacs [source: github]" single])
  (pyregexp .
 	   [(20120812)
@@ -495,7 +500,7 @@
 	[(20120724)
 	 nil "Visual Popup User Interface [source: github]" single])
  (pony-mode .
-	    [(20120507)
+	    [(20120515)
 	     nil "Minor mode for working with Django Projects [source: github]" tar])
  (pomodoro .
 	   [(20120717)
@@ -539,7 +544,7 @@
 	      [(20120711)
 	       nil "Minor mode for interacting with Pandoc [source: github]" tar])
  (packed .
-	 [(20120809)
+	 [(20120815)
 	  ((magit
 	    (1 1 1)))
 	  "Package manager agnostic Emacs Lisp package utilities [source: github]" tar])
@@ -585,9 +590,6 @@
 	      ((org
 		(7 5)))
 	      "Export jekyll-ready posts form org-mode entries [source: github]" single])
- (org-fstree .
-	     [(20090723)
-	      nil "include a filesystem subtree into an org file [source: git]" single])
  (org-cua-dwim .
 	       [(20120202)
 		nil "Org-mode and Cua mode compatibility layer [source: github]" single])
@@ -601,7 +603,7 @@
 		  [(20120731)
 		   nil "track data items by various instance slots [source: github]" single])
  (nrepl .
-	[(20120812)
+	[(20120815)
 	 ((clojure-mode
 	   (1 11)))
 	 "Client for Clojure nREPL [source: github]" single])
@@ -847,6 +849,9 @@
  (hungry-delete .
 		[(20120128)
 		 nil "hungry delete minor mode [source: github]" single])
+ (htmlize .
+	  [(20120616)
+	   nil "Convert buffer text and decorations to HTML. [source: git]" single])
  (html-script-src .
 		  [(20120403)
 		   nil "Insert <script src=\"..\"> for popular JavaScript libraries [source: github]" single])
@@ -904,7 +909,7 @@
 	    (20120509)))
 	  "helm-sources and some utilities for GNU R. [source: github]" single])
  (helm .
-       [(20120814)
+       [(20120815)
 	nil "Helm is an Emacs incremental and narrowing framework [source: github]" tar])
  (header-button .
 		[(20120731)
@@ -1058,7 +1063,7 @@
 	       [(20120720)
 		nil "Major mode for editing Gherkin (i.e. Cucumber) user stories [source: github]" tar])
  (expand-region .
-		[(20120808)
+		[(20120814)
 		 nil "Increase selected region by semantic units. [source: github]" tar])
  (evil-numbers .
 	       [(20120712)
@@ -1081,10 +1086,10 @@
 	  [(20091203)
 	   nil "emacs window session manager [source: github]" single])
  (erlang .
-	 [(20120612)
+	 [(20120807)
 	  nil "No description available. [source: github]" tar])
  (ergoemacs-keybindings .
-			[(20120710)
+			[(20120814)
 			 nil "No description available. [source: svn]" tar])
  (eredis .
 	 [(20120808)
@@ -1111,7 +1116,7 @@
 	[(20120118)
 	 nil "running leiningen commands from emacs [source: github]" single])
  (ein .
-      [(20120812)
+      [(20120816)
        ((websocket
 	 (0 9)))
        "Emacs IPython Notebook [source: github]" tar])
@@ -1178,7 +1183,7 @@
 	  [(20120115)
 	   nil "a pcl-cvs like interface for managing darcs patches [source: darcs]" tar])
  (d-mode .
-	 [(20120722)
+	 [(20101113)
 	  nil "D Programming Language mode for (X)Emacs [source: github]" single])
  (ctags .
 	[(20110911)
@@ -1231,6 +1236,9 @@
  (coffee-mode .
 	      [(20120522)
 	       nil "Major mode to edit CoffeeScript files in Emacs [source: github]" single])
+ (cm-mode .
+	  [(20120813)
+	   nil "Wrapper for CodeMirror-style Emacs modes [source: github]" single])
  (closure-lint-mode .
 		    [(20101118)
 		     nil "minor mode for the Closure Linter [source: github]" single])
@@ -1352,7 +1360,7 @@
  (ac-dabbrev .
 	     [(20091116)
 	      nil "auto-complete.el source for dabbrev [source: wiki]" single])
- (htmlize .
-	  [(20120616)
-	   nil "Convert buffer text and decorations to HTML. [source: git]" single]))
+ (org-fstree .
+	     [(20090723)
+	      nil "include a filesystem subtree into an org file [source: git]" single]))
 

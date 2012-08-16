@@ -11,3 +11,4 @@ locals.zsh
 projects.zsh
 *.swp
 *.dat
+.emacs.d/elpa/archives/*

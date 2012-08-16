@@ -1,8 +1,16 @@
-### git clone 後にやること
+### 最初にやること
+
+#### git cloneで取ってくる
+
+	$ git clone git://github.com/hironemu/dotfiles.git dotfiles
+
+#### oh-my-zshを取得
+	$ cd ~/dotfiles
+	$ git submodule update --init 
 
 #### oh-my-zshの設定とか
 
-	$ $ ln -s ~/dotfiles/.zshrc ~/.zshrc 
+	$ ln -s ~/dotfiles/.zshrc ~/.zshrc 
 	
 #### .emacs.dのシンボリックリンクを作成
 
