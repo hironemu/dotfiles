@@ -102,6 +102,7 @@
 ;; ========================================================================================
 ;; Helmの設定
 ;; ========================================================================================
+(helm-mode 1)
 (global-set-key (kbd "C-;") 'helm-mini)
 
 
@@ -129,11 +130,15 @@
 (when (require 'ruby-block nil t)
   (setq ruby-block-highlight-toggle t))
 
+(require 'ruby-tools)
 ;; ruby-mode-hook用関数定義
 (defun ruby-mode-hooks ()
   ;; (inf-ruby-keys)
-  (ruby-tools-mode t)
+  ;; (ruby-tools-mode t)
   (ruby-end-mode t)
+  ;; C-;がhelm-miniの起動とかぶるのでC-.に変更
+  (define-key ruby-tools-mode-map (kbd "C-;") nil)
+  (define-key ruby-tools-mode-map (kbd "C-.") 'ruby-tools-clear-string)
 
   ;; Returnキーを押した時改行と同時にインデントも行う
   (local-set-key "\r" 'newline-and-indent)
@@ -148,6 +153,7 @@
 
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
+
 
 ;; RVMの設定
 ;; $ rvm use defaultとした時と同じRubyを使用する
