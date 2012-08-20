@@ -28,7 +28,19 @@
 (global-set-key "\C-h" 'delete-backward-char)
 
 ;; C-t に other-window
-(define-key global-map (kbd "C-t") 'other-window)
+;; C-S-t でother-windowを戻る
+;; http://d.hatena.ne.jp/rubikitch/20100210/emacs
+(defun other-window-or-split ()
+  (interactive)
+  (when (one-window-p)
+    (split-window-horizontally))
+  (other-window 1))
+(defun other-window-back ()
+  (interactive)
+  (other-window -1))
+
+(global-set-key (kbd "C-t") 'other-window-or-split)
+(global-set-key (kbd "C-S-T") 'other-window-back)
 
 ;; 折り返しトグルコマンド
 (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
@@ -39,12 +51,43 @@
 ;; Windowの透過
 (set-frame-parameter nil 'alpha 100)
 
-;; 起動時のWindowのサイズ指定
-;; TODO Lion で full screenは24.1できなっぽい。それまではこれで対応。
-;; http://fukubaya.blogspot.jp/2012/06/macbookair-w-lion-emacs-241.html
-(if window-system (progn
-  (setq initial-frame-alist '((width . 110)(height . 58)(top . 0)(left . 0)))
-))
+;; 起動時にWindowを最大化
+(require 'maxframe)
+(add-hook 'window-setup-hook 'maximize-frame t)
+
+;; Elscreen
+;; TODO なんか動かない
+;; (load "elscreen" "ElScreen" t) ;; TODO 自動起動しない
+;; (define-key global-map (kbd "M-t") 'elscreen-next)
+
+
+;; term を使うときにm4という文字が先頭に入る場合の対処方法
+;; % mkdir -p ~/.terminfo/65/
+;; % cp /usr/share/terminfo/65/eterm ~/.terminfo/65/eterm-color
+;; (setq system-uses-terminfo nil) ; ＜これが効かない
+(setenv "LANG" "ja_JP.UTF-8")
+(set-language-environment  'utf-8)
+(prefer-coding-system 'utf-8)
+(setq file-name-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+
+;; term-modeの幅をかえる。term-window-widthを上書き。
+;; http://stackoverflow.com/questions/11036739/fixed-width-in-emacs-term-mode
+
+;; C-c tでmulti-term起動
+(global-set-key (kbd "C-c t") 'multi-term)
+(defun term-window-width () 80) ;; TODO これ毎回評価しないとダメなんだけどなんで。
+;; (require 'multi-term)
+(add-hook 'term-mode-hook
+          '(lambda ()
+	     (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
+	     (define-key term-raw-map (kbd "C-y") 'term-paste)
+	     (define-key term-raw-map (kbd "C-t") 'other-window)
+	     (define-key term-raw-map (kbd "C-T") 'other-window)
+	     (setq truncate-lines t)
+	     ))
+
+
 
 ;; テーマファイルの場所
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -63,6 +106,17 @@
   (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
   (set-fontset-font nil '(#x0080 . #x024F) fontspec) 
   (set-fontset-font nil '(#x0370 . #x03FF) fontspec))
+
+;; フォントサイズを一時的に変更する
+;; http://emacs-fu.blogspot.jp/2008/12/zooming-inout.html
+(defun djcb-zoom (n)
+  "with positive N, increase the font size, otherwise decrease it"
+  (set-face-attribute 'default (selected-frame) :height 
+    (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10)))) 
+(global-set-key (kbd "C-+")      '(lambda nil (interactive) (djcb-zoom 1)))
+(global-set-key [C-kp-add]       '(lambda nil (interactive) (djcb-zoom 1)))
+(global-set-key (kbd "C--")      '(lambda nil (interactive) (djcb-zoom -1)))
+(global-set-key [C-kp-subtract]  '(lambda nil (interactive) (djcb-zoom -1)))
 
 ;; custom-theme-load-pathで指定したディレクトリにテーマファイルを配置
 ;; M-x customize-themesでテーマを選択
