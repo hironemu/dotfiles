@@ -38,12 +38,14 @@
 (defun other-window-back ()
   (interactive)
   (other-window -1))
-
 (global-set-key (kbd "C-t") 'other-window-or-split)
 (global-set-key (kbd "C-S-T") 'other-window-back)
 
 ;; 折り返しトグルコマンド
 (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
+
+;; コードの整形
+(define-key global-map (kbd "C-c a") 'align-regexp)
 
 ;; Emacs終了時にバッファの状態を保存する
 (desktop-save-mode t)
@@ -207,6 +209,11 @@
 
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
+
+(add-to-list 'hs-special-modes-alist
+	     '(ruby-mode
+	       "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
+	       (lambda (arg) (ruby-end-of-block)) nil))
 
 
 ;; RVMの設定

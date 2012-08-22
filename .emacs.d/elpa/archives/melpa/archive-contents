@@ -12,11 +12,14 @@
 		    [(20120622)
 		     nil "zen and art color theme for GNU Emacs 24 [source: github]" single])
  (yasnippet .
-	    [(20120819)
+	    [(20120822)
 	     nil "Yet another snippet extension for Emacs. [source: github]" tar])
  (yari .
        [(20110417)
 	nil "Yet Another RI interface for Emacs [source: github]" single])
+ (yaoddmuse .
+	    [(20120605)
+	     nil "Yet another oddmuse for Emacs [source: wiki]" single])
  (yaml-mode .
 	    [(20120227)
 	     nil "Major mode for editing YAML files [source: github]" single])
@@ -56,6 +59,12 @@
  (vimgolf .
 	  [(20120228)
 	   nil "VimGolf interface for the One True Editor [source: github]" single])
+ (vcomp .
+	[(20120820)
+	 nil "compare version strings [source: github]" single])
+ (vc-darcs .
+	   [(20090617)
+	    nil "a VC backend for darcs [source: darcs]" single])
  (unfill .
 	 [(20120529)
 	  nil "The inverse of fill-paragraph and fill-region [source: github]" single])
@@ -562,7 +571,7 @@
 	       [(20120721)
 		nil "Toodledo integration for Emacs Org mode [source: github]" tar])
  (org-readme .
-	     [(20120813)
+	     [(20120821)
 	      ((http-post-simple
 		(1 0))
 	       (yaoddmuse
@@ -576,7 +585,7 @@
 	      [(20120529)
 	       nil "Outlook org [source: github]" tar])
  (org-magit .
-	    [(20120819)
+	    [(20120820)
 	     ((magit
 	       (0 8))
 	      (org
@@ -603,7 +612,7 @@
 		  [(20120816)
 		   nil "track data items by various instance slots [source: github]" single])
  (o-blog .
-	 [(20120813)
+	 [(20120821)
 	  nil "Org-blog exporter [source: github]" tar])
  (nrepl-ritz .
 	     [(20120817)
@@ -702,6 +711,9 @@
  (map-progress .
 	       [(20120731)
 		nil "mapping macros that report progress [source: github]" tar])
+ (magnet .
+	 [(20120820)
+	  nil "one config and one data directory for Emacs [source: github]" single])
  (magithub .
 	   [(20120209)
 	    ((magit
@@ -709,6 +721,11 @@
 	     (json
 	      (1 2)))
 	    "Magit extensions for using GitHub [source: github]" single])
+ (magit-push-remote .
+		    [(20120820)
+		     ((magit
+		       (1 1 1)))
+		     "push remote support for Magit [source: github]" single])
  (magit-gh-pulls .
 		 [(20120116)
 		  ((gh
@@ -731,7 +748,7 @@
 	    (1 3)))
 	  "logging library for Emacs [source: github]" single])
  (logalimacs .
-	     [(20120811)
+	     [(20120822)
 	      ((popwin
 		(20120529))
 	       (popup
@@ -777,7 +794,7 @@
 	    [(20120804)
 	     nil "navigation by char [source: github]" single])
  (jump .
-       [(20120702)
+       [(20120820)
 	((findr
 	  (0 7))
 	 (inflections
@@ -831,7 +848,7 @@
 	    [(20120630)
 	     nil "code to split customizations into different files [source: github]" single])
  (info+ .
-	[(20120818)
+	[(20120821)
 	 nil "Extensions to `info.el'. [source: wiki]" single])
  (inflections .
 	      [(20120702)
@@ -856,7 +873,7 @@
 		      [(20120724)
 		       nil "highlight the word the point is on [source: github]" single])
  (icicles .
-	  [(20120819)
+	  [(20120821)
 	   nil "Minibuffer input completion and cycling. [source: wiki]" tar])
  (ibuffer-vc .
 	     [(20111221)
@@ -915,6 +932,9 @@
 	      (gist
 	       (1 0 1)))
 	     "helm-sources and some utilities for gist. [source: github]" single])
+ (helm-descbinds .
+		 [(20120327)
+		  nil "Yet Another `describe-bindings' with `helm'. [source: github]" single])
  (helm-c-yasnippet .
 		   [(20120820)
 		    nil "helm source for yasnippet.el [source: github]" single])
@@ -929,7 +949,7 @@
 	    (20120509)))
 	  "helm-sources and some utilities for GNU R. [source: github]" single])
  (helm .
-       [(20120820)
+       [(20120821)
 	nil "Helm is an Emacs incremental and narrowing framework [source: github]" tar])
  (header-button .
 		[(20120731)
@@ -953,7 +973,7 @@
        [(20110806)
 	nil "run grin and grind (python replacements for grep and find) putting hits in a grep buffer [source: hg]" single])
  (graphviz-dot-mode .
-		    [(20120627)
+		    [(20120821)
 		     nil "Mode for the dot-language used by graphviz (att). [source: github]" single])
  (goto-chg .
 	   [(20080919)
@@ -1042,7 +1062,7 @@
 	       [(20120518)
 		nil "A flymake handler for ruby-mode files [source: github]" single])
  (flymake-python-pyflakes .
-			  [(20120722)
+			  [(20120816)
 			   nil "A flymake handler for python-mode files using pyflakes as the backend checker [source: github]" single])
  (flymake-php .
 	      [(20120319)
@@ -1306,7 +1326,7 @@
 	   [(20081011)
 	    nil "Quote text with a semi-box. [source: github]" single])
  (bookmark+ .
-	    [(20120819)
+	    [(20120821)
 	     nil "Bookmark+: extensions to standard library `bookmark.el'. [source: wiki]" tar])
  (bm .
      [(20120611)
@@ -1382,8 +1402,5 @@
        [(20120807)
 	((undo-tree
 	  (0 5 1)))
-	"Extensible Vi layer for Emacs. [source: git]" tar])
- (vc-darcs .
-	   [(20090617)
-	    nil "a VC backend for darcs [source: darcs]" single]))
+	"Extensible Vi layer for Emacs. [source: git]" tar]))
 
