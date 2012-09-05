@@ -58,9 +58,9 @@
 (add-hook 'window-setup-hook 'maximize-frame t)
 
 ;; Elscreen
-;; TODO なんか動かない
-;; (load "elscreen" "ElScreen" t) ;; TODO 自動起動しない
-;; (define-key global-map (kbd "M-t") 'elscreen-next)
+;; http://d.hatena.ne.jp/sky-y/20120830/1346333199
+(when (>= emacs-major-version 24)
+   (elscreen-start))
 
 
 ;; term を使うときにm4という文字が先頭に入る場合の対処方法
