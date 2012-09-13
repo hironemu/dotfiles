@@ -18,6 +18,11 @@
 	    (normal-top-level-add-subdirs-to-load-path))))))
 (add-to-load-path "elisp")
 
+;; バックアップファイルを作らない
+(setq make-backup-files nil)
+;; 自動保存しない
+(setq auto-save-default nil)
+
 ;; Emacsのツールバーを非表示にする
 (tool-bar-mode 0)
 
@@ -26,6 +31,9 @@
 
 ;; C-hでバックスペース
 (global-set-key "\C-h" 'delete-backward-char)
+
+;; 選択した部分をDELやBSで削除できるようにする
+(delete-selection-mode t)
 
 ;; C-t に other-window
 ;; C-S-t でother-windowを戻る
@@ -155,6 +163,9 @@
 (require 'color-moccur)
 (require 'moccur-edit)
 
+;; moccur-grep時のデフォルトのファイルマスク
+(setq-default moccur-grep-default-mask ".rb")
+
 ;; ========================================================================================
 ;; Helmの設定
 ;; ========================================================================================
@@ -219,6 +230,12 @@
 ;; RVMの設定
 ;; $ rvm use defaultとした時と同じRubyを使用する
 (rvm-use-default)
+
+
+;; Emacs 24.1にしてからhaml-modeのシンタックスハイライトがおかしいので以下を使う
+;; cd .emacs.d/elisp && wget https://raw.github.com/ealden/haml-mode/master/haml-mode.el
+(require 'haml-mode)
+(require 'sass-mode)
 
 ;; haml-modeの設定
 ;; hamlコマンドが必要（RVMを使っている場合はrvm.elが必要)
