@@ -19,8 +19,14 @@
 (add-to-load-path "elisp")
 
 ;; バックアップファイルを作らない
-(setq make-backup-files nil)
-;; 自動保存しない
+;; (setq make-backup-files nil)
+;; ;; 自動保存しない
+;; (setq auto-save-default nil)
+;; (setq backup-inhibited t)
+
+;disable backup
+(setq backup-inhibited t)
+;disable auto save
 (setq auto-save-default nil)
 
 ;; Emacsのツールバーを非表示にする
@@ -157,7 +163,9 @@
   (define-key ac-complete-mode-map "\C-n" 'ac-next)
   ;; C-pで次の候補へ移動
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
-  (ac-config-default))
+  (ac-config-default)
+  ;; 補完開始までの遅延時間（秒数）
+  (setq ac-delay 1))
 
 ;; 検索
 (require 'color-moccur)
