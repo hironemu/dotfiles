@@ -32,6 +32,9 @@
 ;; Emacsのツールバーを非表示にする
 (tool-bar-mode 0)
 
+;; スクロールバーを消す
+(toggle-scroll-bar nil)
+
 ;; タイトルバーにフルパスを表示
 (setq frame-title-format "%f")
 
@@ -65,7 +68,7 @@
 (desktop-save-mode t)
 
 ;; Windowの透過
-(set-frame-parameter nil 'alpha 100)
+(set-frame-parameter nil 'alpha 90)
 
 ;; 起動時にWindowを最大化
 (require 'maxframe)
@@ -110,10 +113,10 @@
 
 ;; Ricty fontの使用と設定
 ;; http://blog.nyarla.net/2011/10/28/1
-(let* ((size 16)
+(let* ((size 15)
        (asciifont "Ricty") ; ASCII fonts
        (jpfont "Ricty") ; Japanese fonts
-       (h (* size 10))
+       (h (* size 9))
        (fontspec (font-spec :family asciifont))
        (jp-fontspec (font-spec :family jpfont)))
   (set-face-attribute 'default nil :family asciifont :height h)
@@ -144,7 +147,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(custom-enabled-themes (quote (tango-2)))
- '(custom-safe-themes (quote ("6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "e9a1226ffed627ec58294d77c62aa9561ec5f42309a1f7a2423c6227e34e3581" "211bb9b24001d066a646809727efb9c9a2665c270c753aa125bace5e899cb523" default))))
+ '(custom-safe-themes (quote ("0322f45e2d84bf7c29937355ea600a852f999461f8262243d71aeb9ce99b782f" "cfcc3ed8e51b9f1c2e99166349d5cb1b4ce392b167db73bd83c5ccb706443a8d" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "e9a1226ffed627ec58294d77c62aa9561ec5f42309a1f7a2423c6227e34e3581" "211bb9b24001d066a646809727efb9c9a2665c270c753aa125bace5e899cb523" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -174,11 +177,23 @@
 ;; moccur-grep時のデフォルトのファイルマスク
 (setq-default moccur-grep-default-mask ".rb")
 
+
 ;; ========================================================================================
 ;; Helmの設定
 ;; ========================================================================================
 (helm-mode 1)
 (global-set-key (kbd "C-;") 'helm-mini)
+;; 色々なhelmのコマンドとか以下のサイトを参考に。
+;; http://sleepboy-zzz.blogspot.jp/2012/09/anythinghelm.html
+(require 'helm-descbinds)
+(setq helm-idle-delay 0.3
+      helm-input-idle-delay 0.1
+      helm-candidate-number-limit 200)
+(global-set-key (kbd "C-:") 'helm-resume)
+(global-set-key (kbd "M-s") 'helm-occur)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-c s") 'helm-do-grep)
+(global-set-key (kbd "C-c h") 'helm-descbinds)
 
 
 ;; ========================================================================================
@@ -224,6 +239,9 @@
   (setq ruby-deep-indent-paren nil)
   ;; Rubyのシンタックスチェックを行う
   (flymake-ruby-load)
+  ;; ruby-modeで起動するファイル
+  (add-to-list 'auto-mode-alist
+	       '("\\.rake$" . ruby-mode))
   )
 
 (add-hook 'ruby-mode-hook
@@ -273,3 +291,94 @@
 (add-hook 'coffee-mode-hook
 	  'coffee-mode-hooks)
 
+;; Markdown mode
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\\.md$" . markdown-mode) auto-mode-alist));)
+(setq markdown-css-path
+      "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css")
+
+;; web-mode
+(require 'web-mode)
+;;; 適用する拡張子
+(add-to-list 'auto-mode-alist '("\\.phtml$"     . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php$"       . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp$"       . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x$"   . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?$"     . web-mode))
+
+;;; インデント数
+(defun web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-html-offset   2)
+  (setq web-mode-css-offset    2)
+  (setq web-mode-script-offset 2)
+  (setq web-mode-php-offset    2)
+  (setq web-mode-java-offset   2)
+  (setq web-mode-asp-offset    2)
+  (linum-mode 1))
+(add-hook 'web-mode-hook 'web-mode-hook)
+
+;; muliple-cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;; (require 'inline-string-rectangle)
+;; (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
+;; (require 'mark-more-like-this)
+;; (global-set-key (kbd "C-<") 'mark-previous-like-this)
+;; (global-set-key (kbd "C->") 'mark-next-like-this)
+;; (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+;; (global-set-key (kbd "C-*") 'mark-all-like-this)
+
+;; (add-hook 'sgml-mode-hook
+;;           (lambda ()
+;;             (require 'rename-sgml-tag)
+;;             (define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)))
+
+;; (defun my-mark-current-word (&optional arg allow-extend)
+;;   "Put point at beginning of current word, set mark at end."
+;;   (interactive "p\np")
+;;   (setq arg (if arg arg 1))
+;;   (if (and allow-extend
+;; 	   (or (and (eq last-command this-command) (mark t))
+;; 	       (region-active-p)))
+;;       (set-mark
+;;        (save-excursion
+;; 	 (when (< (mark) (point))
+;; 	   (setq arg (- arg)))
+;; 	 (goto-char (mark))
+;; 	 (forward-word arg)
+;; 	 (point)))
+;;     (let ((wbounds (bounds-of-thing-at-point 'word)))
+;;       (unless (consp wbounds)
+;; 	(error "No word at point"))
+;;       (if (>= arg 0)
+;; 	  (goto-char (car wbounds))
+;; 	(goto-char (cdr wbounds)))
+;;       (push-mark (save-excursion
+;; 		   (forward-word arg)
+;; 		   (point)))
+;;       (activate-mark))))
+
+
+;; カーソル位置の単語を選択する
+;; http://ergoemacs.org/emacs/elisp_examples.html
+(transient-mark-mode 1)
+(defun select-current-word ()
+"Select the word under cursor.
+“word” here is considered any alphanumeric sequence with “_” or “-”."
+ (interactive)
+ (let (pt)
+   (skip-chars-backward "-_A-Za-z0-9")
+   (setq pt (point))
+   (skip-chars-forward "-_A-Za-z0-9")
+   (set-mark pt)
+ ))
+(global-set-key (kbd "M-2") 'select-current-word)
