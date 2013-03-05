@@ -18,6 +18,17 @@
 	    (normal-top-level-add-subdirs-to-load-path))))))
 (add-to-load-path "elisp")
 
+;;auto-installの設定
+(when(require 'auto-install nil t)
+  ;;インストールディレクトリを設定する初期値は~/.emacs.d/auto-install/
+  (setq auto-install-directory "~/.emacs.d/elisp/")
+  ;;EmacsWikiに登録されているelispの名前を取得する
+  (auto-install-update-emacswiki-package-name t)
+  ;;必要であればプロキシの設定を行う
+  ;;(setq url-proxy-services '(("http" . "localhost:8339")))
+  ;;install-elispの関数を利用可能にする
+  (auto-install-compatibility-setup))
+
 ;; バックアップファイルを作らない
 ;; (setq make-backup-files nil)
 ;; ;; 自動保存しない
@@ -74,6 +85,12 @@
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 
+;; Emacs上にファイルをドラッグ＆ドロップして開く
+(define-key global-map [ns-drag-file] 'ns-find-file)
+
+;; ドラッグ＆ドロップで新しくウィンドウを開かない
+(setq ns-pop-up-frames nil)
+
 ;; Elscreen
 ;; http://d.hatena.ne.jp/sky-y/20120830/1346333199
 (when (>= emacs-major-version 24)
@@ -116,7 +133,7 @@
 (let* ((size 15)
        (asciifont "Ricty") ; ASCII fonts
        (jpfont "Ricty") ; Japanese fonts
-       (h (* size 9))
+       (h (* size 10))
        (fontspec (font-spec :family asciifont))
        (jp-fontspec (font-spec :family jpfont)))
   (set-face-attribute 'default nil :family asciifont :height h)
@@ -177,6 +194,17 @@
 ;; moccur-grep時のデフォルトのファイルマスク
 (setq-default moccur-grep-default-mask ".rb")
 
+;; (require 'highlight-symbol)
+;; ;; (global-set-key [(control f3)] 'highlight-symbol-at-point)
+;; (global-set-key (kbd "C-.") 'highlight-symbol-at-point)
+;; (global-set-key (kbd "C-}") 'highlight-symbol-next)
+;; (global-set-key (kbd "C-{") 'highlight-symbol-prev)
+;; (custom-set-variables '(highlight-symbol-foreground-color "white"))
+
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+
+
 
 ;; ========================================================================================
 ;; Helmの設定
@@ -194,7 +222,6 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-c s") 'helm-do-grep)
 (global-set-key (kbd "C-c h") 'helm-descbinds)
-
 
 ;; ========================================================================================
 ;; = magitの設定
@@ -321,6 +348,8 @@
   (linum-mode 1))
 (add-hook 'web-mode-hook 'web-mode-hook)
 
+(setq js-indent-level 2)
+
 ;; muliple-cursors
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -382,3 +411,16 @@
    (set-mark pt)
  ))
 (global-set-key (kbd "M-2") 'select-current-word)
+
+;; カーソル行ハイライト
+;; http://stackoverflow.com/questions/4495406/hl-line-mode-emacs-color-change
+(defadvice hl-line-mode (after
+			 dino-advise-hl-line-mode
+			 activate compile)
+  (set-face-background hl-line-face "gray20"))
+(global-hl-line-mode)
+
+;; 古いバッファを全てrevertする
+;; auto-insstall-from-url: http://www.neilvandyke.org/revbufs/revbufs.el
+(require 'revbufs)
+(global-set-key (kbd "C-c v") 'revbufs)
