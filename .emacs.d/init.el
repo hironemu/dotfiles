@@ -18,12 +18,29 @@
 	    (normal-top-level-add-subdirs-to-load-path))))))
 (add-to-load-path "elisp")
 
+;; Pathの設定
+(dolist (dir (list
+              "/sbin"
+              "/usr/sbin"
+              "/bin"
+              "/usr/bin"
+              "/opt/local/bin"
+              "/sw/bin"
+              "/usr/local/bin"
+              (expand-file-name "~/bin")
+              (expand-file-name "~/.emacs.d/bin")
+              ))
+  ;; PATH と exec-path に同じ物を追加します
+  (when (and (file-exists-p dir) (not (member dir exec-path)))
+    (setenv "PATH" (concat dir ":" (getenv "PATH")))
+    (setq exec-path (append (list dir) exec-path))))
+
 ;;auto-installの設定
 (when(require 'auto-install nil t)
   ;;インストールディレクトリを設定する初期値は~/.emacs.d/auto-install/
   (setq auto-install-directory "~/.emacs.d/elisp/")
   ;;EmacsWikiに登録されているelispの名前を取得する
-  (auto-install-update-emacswiki-package-name t)
+  ;(auto-install-update-emacswiki-package-name t)
   ;;必要であればプロキシの設定を行う
   ;;(setq url-proxy-services '(("http" . "localhost:8339")))
   ;;install-elispの関数を利用可能にする
@@ -79,7 +96,7 @@
 (desktop-save-mode t)
 
 ;; Windowの透過
-(set-frame-parameter nil 'alpha 90)
+(set-frame-parameter nil 'alpha 93)
 
 ;; 起動時にWindowを最大化
 (require 'maxframe)
@@ -90,6 +107,15 @@
 
 ;; ドラッグ＆ドロップで新しくウィンドウを開かない
 (setq ns-pop-up-frames nil)
+
+;; すべてのバッファを閉じる
+;; http://stackoverflow.com/questions/3417438/closing-all-other-buffers-in-emacs
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer 
+	(delq (current-buffer) 
+	      (remove-if-not 'buffer-file-name (buffer-list)))))
 
 ;; Elscreen
 ;; http://d.hatena.ne.jp/sky-y/20120830/1346333199
@@ -130,7 +156,7 @@
 
 ;; Ricty fontの使用と設定
 ;; http://blog.nyarla.net/2011/10/28/1
-(let* ((size 15)
+(let* ((size 16)
        (asciifont "Ricty") ; ASCII fonts
        (jpfont "Ricty") ; Japanese fonts
        (h (* size 10))
@@ -242,12 +268,18 @@
 ;; Rubyの設定
 ;; ========================================================================================
 
+;; RVMの設定
+;; $ rvm use defaultとした時と同じRubyを使用する
+(require 'rvm)
+(rvm-use-default)
+
 ;; ruby-blockの設定
 ;; endに対するハイライト
 (when (require 'ruby-block nil t)
   (setq ruby-block-highlight-toggle t))
 
 (require 'ruby-tools)
+(require 'helm-rdefs)
 ;; ruby-mode-hook用関数定義
 (defun ruby-mode-hooks ()
   ;; (inf-ruby-keys)
@@ -269,20 +301,35 @@
   ;; ruby-modeで起動するファイル
   (add-to-list 'auto-mode-alist
 	       '("\\.rake$" . ruby-mode))
+  ;; ソースコードの折りたたみ
+  (hs-minor-mode 1)
+  (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
+  (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
+  (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
   )
 
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
 
-(add-to-list 'hs-special-modes-alist
-	     '(ruby-mode
-	       "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
-	       (lambda (arg) (ruby-end-of-block)) nil))
+;; (require 'hideshow-org)
 
+;; (add-to-list 'hs-special-modes-alist
+;; 	     '(ruby-mode
+;; 	       "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
+;; 	       (lambda (arg) (ruby-end-of-block)) nil))
 
-;; RVMの設定
-;; $ rvm use defaultとした時と同じRubyを使用する
-(rvm-use-default)
+;; ソースコードの折りたたみ
+;; http://yoosee.net/d/archives/2007/01/30/002.html
+(let ((ruby-mode-hs-info
+       '(ruby-mode
+	 "class\\|module\\|def\\|if\\|unless\\|case\\|while\\|until\\|for\\|begin\\|do"
+	 "end"
+	 "#"
+	 ruby-move-to-block
+	 nil)))
+  (if (not (member ruby-mode-hs-info hs-special-modes-alist))
+      (setq hs-special-modes-alist
+            (cons ruby-mode-hs-info hs-special-modes-alist))))
 
 
 ;; Emacs 24.1にしてからhaml-modeのシンタックスハイライトがおかしいので以下を使う
@@ -397,30 +444,47 @@
 ;;       (activate-mark))))
 
 
-;; カーソル位置の単語を選択する
-;; http://ergoemacs.org/emacs/elisp_examples.html
-(transient-mark-mode 1)
-(defun select-current-word ()
-"Select the word under cursor.
-“word” here is considered any alphanumeric sequence with “_” or “-”."
- (interactive)
- (let (pt)
-   (skip-chars-backward "-_A-Za-z0-9")
-   (setq pt (point))
-   (skip-chars-forward "-_A-Za-z0-9")
-   (set-mark pt)
- ))
-(global-set-key (kbd "M-2") 'select-current-word)
+;; ;; カーソル位置の単語を選択する
+;; ;; http://ergoemacs.org/emacs/elisp_examples.html
+;; (transient-mark-mode 1)
+;; (defun select-current-word ()
+;; "Select the word under cursor.
+;; “word” here is considered any alphanumeric sequence with “_” or “-”."
+;;  (interactive)
+;;  (let (pt)
+;;    (skip-chars-backward "-_A-Za-z0-9")
+;;    (setq pt (point))
+;;    (skip-chars-forward "-_A-Za-z0-9")
+;;    (set-mark pt)
+;;  ))
+;; (global-set-key (kbd "M-2") 'select-current-word)
 
 ;; カーソル行ハイライト
 ;; http://stackoverflow.com/questions/4495406/hl-line-mode-emacs-color-change
 (defadvice hl-line-mode (after
 			 dino-advise-hl-line-mode
 			 activate compile)
-  (set-face-background hl-line-face "gray20"))
+  (set-face-background hl-line-face "gray15"))
 (global-hl-line-mode)
 
 ;; 古いバッファを全てrevertする
 ;; auto-insstall-from-url: http://www.neilvandyke.org/revbufs/revbufs.el
 (require 'revbufs)
 (global-set-key (kbd "C-c v") 'revbufs)
+
+;; popwin
+;; https://github.com/m2ym/popwin-el
+(when (require 'popwin nil t)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (push '("^\*helm .+\*$" :regexp t) popwin:special-display-config)
+  (push '("^\*helm-.+\*$" :regexp t) popwin:special-display-config))
+
+;; expand-region
+(require 'expand-region)
+(global-set-key (kbd "M-2") 'er/expand-region)
+(global-set-key (kbd "M-3") 'er/contract-region)
+
+;; 括弧などのペアになる文字列を扱う
+;; https://github.com/Fuco1/smartparens
+(require 'smartparens-config)
+(smartparens-global-mode 1)
