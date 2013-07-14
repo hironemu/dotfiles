@@ -12,5 +12,7 @@ projects.zsh
 *.swp
 *.dat
 .emacs.d/elpa/archives/*
-.emacs.d/.emacs.desktop
+.emacs.d/.emacs.desktop*
 .emacs.d/.mc-lists.el
+.emacs.d/bookmarks
+.emacs.d/projectile-bookmarks.eld

@@ -96,7 +96,7 @@
 (desktop-save-mode t)
 
 ;; Windowの透過
-(set-frame-parameter nil 'alpha 93)
+;(set-frame-parameter nil 'alpha 93)
 
 ;; 起動時にWindowを最大化
 (require 'maxframe)
@@ -116,6 +116,12 @@
   (mapc 'kill-buffer 
 	(delq (current-buffer) 
 	      (remove-if-not 'buffer-file-name (buffer-list)))))
+
+;; ファイル名がかぶった場合にバッファ名をわかりやすくする
+;; http://qiita.com/icb54615/items/db1e0f7d97fcb0afe416
+(require 'uniquify)
+(setq
+ uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; Elscreen
 ;; http://d.hatena.ne.jp/sky-y/20120830/1346333199
@@ -156,6 +162,18 @@
 
 ;; Ricty fontの使用と設定
 ;; http://blog.nyarla.net/2011/10/28/1
+;; (let* ((size 16)
+;;        (asciifont "Ricty") ; ASCII fonts
+;;        (jpfont "Ricty") ; Japanese fonts
+;;        (h (* size 10))
+;;        (fontspec (font-spec :family asciifont))
+;;        (jp-fontspec (font-spec :family jpfont)))
+;;   (set-face-attribute 'default nil :family asciifont :height h)
+;;   (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
+;;   (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
+;;   (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
+;;   (set-fontset-font nil '(#x0080 . #x024F) fontspec) 
+;;   (set-fontset-font nil '(#x0370 . #x03FF) fontspec))
 (let* ((size 16)
        (asciifont "Ricty") ; ASCII fonts
        (jpfont "Ricty") ; Japanese fonts
@@ -163,11 +181,23 @@
        (fontspec (font-spec :family asciifont))
        (jp-fontspec (font-spec :family jpfont)))
   (set-face-attribute 'default nil :family asciifont :height h)
-  (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
-  (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
-  (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
-  (set-fontset-font nil '(#x0080 . #x024F) fontspec) 
-  (set-fontset-font nil '(#x0370 . #x03FF) fontspec))
+  ;; (set-face-bold-p 'bold nil)
+  (set-fontset-font t 'japanese-jisx0213.2004-1 jp-fontspec)
+  (set-fontset-font t 'japanese-jisx0213-2 jp-fontspec)
+  (set-fontset-font t 'japanese-jisx0213-1 jp-fontspec)
+  (set-fontset-font t 'japanese-jisx0212 jp-fontspec)
+  (set-fontset-font t 'japanese-jisx0208 jp-fontspec)
+  (set-fontset-font t 'katakana-jisx0201 jp-fontspec)
+  (set-fontset-font t '(#x0080 . #x024F) fontspec) 
+  (set-fontset-font t '(#x0370 . #x03FF) fontspec))
+
+(dolist (elt '(("^-apple-hiragino.*" . 1.2)
+	       (".*osaka-bold.*" . 1.2)
+	       (".*osaka-medium.*" . 1.2)
+	       (".*courier-bold-.*-mac-roman" . 1.0)
+	       (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+	       (".*monaco-bold-.*-mac-roman" . 0.9)))
+  (add-to-list 'face-font-rescale-alist elt))
 
 ;; フォントサイズを一時的に変更する
 ;; http://emacs-fu.blogspot.jp/2008/12/zooming-inout.html
@@ -188,16 +218,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (tango-2)))
- '(custom-safe-themes (quote ("0322f45e2d84bf7c29937355ea600a852f999461f8262243d71aeb9ce99b782f" "cfcc3ed8e51b9f1c2e99166349d5cb1b4ce392b167db73bd83c5ccb706443a8d" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "e9a1226ffed627ec58294d77c62aa9561ec5f42309a1f7a2423c6227e34e3581" "211bb9b24001d066a646809727efb9c9a2665c270c753aa125bace5e899cb523" default))))
+ '(ansi-color-names-vector ["#002b36" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
+ '(custom-enabled-themes (quote (solarized-dark)))
+ '(custom-safe-themes (quote ("e9a1226ffed627ec58294d77c62aa9561ec5f42309a1f7a2423c6227e34e3581" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "211bb9b24001d066a646809727efb9c9a2665c270c753aa125bace5e899cb523" "1d1622e8bc2292dab58d7ba452cef0ac81463dcf021f3f5a65afb0d551c1d746" "e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" default)))
+ '(fci-rule-color "#073642")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-tail-colors (quote (("#073642" . 0) ("#546E00" . 20) ("#00736F" . 30) ("#00629D" . 50) ("#7B6000" . 60) ("#8B2C02" . 70) ("#93115C" . 85) ("#073642" . 100))))
+ '(syslog-debug-face (quote ((t :background unspecified :foreground "#2aa198" :weight bold))))
+ '(syslog-error-face (quote ((t :background unspecified :foreground "#dc322f" :weight bold))))
+ '(syslog-hour-face (quote ((t :background unspecified :foreground "#859900"))))
+ '(syslog-info-face (quote ((t :background unspecified :foreground "#268bd2" :weight bold))))
+ '(syslog-ip-face (quote ((t :background unspecified :foreground "#b58900"))))
+ '(syslog-su-face (quote ((t :background unspecified :foreground "#d33682"))))
+ '(syslog-warn-face (quote ((t :background unspecified :foreground "#cb4b16" :weight bold))))
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map (quote ((20 . "#dc322f") (40 . "#CF4F1F") (60 . "#C26C0F") (80 . "#b58900") (100 . "#AB8C00") (120 . "#A18F00") (140 . "#989200") (160 . "#8E9500") (180 . "#859900") (200 . "#729A1E") (220 . "#609C3C") (240 . "#4E9D5B") (260 . "#3C9F79") (280 . "#2aa198") (300 . "#299BA6") (320 . "#2896B5") (340 . "#2790C3") (360 . "#268bd2"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list (quote (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
 
 
 ;; auto-completeの設定
@@ -243,6 +286,11 @@
 (setq helm-idle-delay 0.3
       helm-input-idle-delay 0.1
       helm-candidate-number-limit 200)
+;; HelmのFile listでパスを表示する
+;; http://mikio.github.io/article/2013/06/14_helm.html
+(setq helm-ff-transformer-show-only-basename nil)
+
+
 (global-set-key (kbd "C-:") 'helm-resume)
 (global-set-key (kbd "M-s") 'helm-occur)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -265,6 +313,15 @@
        (set-face-background 'magit-item-highlight "black"))))
 
 ;; ========================================================================================
+;; Projectileの設定
+;; ========================================================================================
+;; https://github.com/bbatsov/projectile
+(when (require 'projectile nil t)
+  (projectile-global-mode)
+  (global-set-key (kbd "C-c h") 'helm-projectile)
+  )
+
+;; ========================================================================================
 ;; Rubyの設定
 ;; ========================================================================================
 
@@ -280,6 +337,7 @@
 
 (require 'ruby-tools)
 (require 'helm-rdefs)
+
 ;; ruby-mode-hook用関数定義
 (defun ruby-mode-hooks ()
   ;; (inf-ruby-keys)
@@ -299,24 +357,22 @@
   ;; Rubyのシンタックスチェックを行う
   (flymake-ruby-load)
   ;; ruby-modeで起動するファイル
-  (add-to-list 'auto-mode-alist
-	       '("\\.rake$" . ruby-mode))
+  ;; http://stackoverflow.com/questions/11027783/how-can-i-cons-a-list-of-pairs-on-to-auto-mode-alist
+  (let* ((ruby-files '(".rake" ".thor" "Gemfile" "Rakefile" "Crushfile" "Capfile" "Guardfile"))
+	 (ruby-regexp (concat (regexp-opt ruby-files t) "\\'")))
+    (add-to-list 'auto-mode-alist (cons ruby-regexp 'enh-ruby-mode)))
   ;; ソースコードの折りたたみ
   (hs-minor-mode 1)
   (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
   (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
   (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
   )
-
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
+;; (add-hook 'enh-ruby-mode-hook
+;; 	  'ruby-mode-hooks)
 
 ;; (require 'hideshow-org)
-
-;; (add-to-list 'hs-special-modes-alist
-;; 	     '(ruby-mode
-;; 	       "\\(def\\|do\\|{\\)" "\\(end\\|end\\|}\\)" "#"
-;; 	       (lambda (arg) (ruby-end-of-block)) nil))
 
 ;; ソースコードの折りたたみ
 ;; http://yoosee.net/d/archives/2007/01/30/002.html
@@ -343,7 +399,7 @@
 	  '(lambda ()
 	     (setq indent-tabs-mode nil)
 	     (define-key haml-mode-map "\C-m" 'newline-and-indent)
-	     (flymake-haml-load)
+	     ;; (flymake-haml-load)
 	     ))
 
 ;; scss-modeの設定
@@ -392,7 +448,8 @@
   (setq web-mode-php-offset    2)
   (setq web-mode-java-offset   2)
   (setq web-mode-asp-offset    2)
-  (linum-mode 1))
+  ;(linum-mode 1)
+  )
 (add-hook 'web-mode-hook 'web-mode-hook)
 
 (setq js-indent-level 2)
@@ -464,20 +521,32 @@
 (defadvice hl-line-mode (after
 			 dino-advise-hl-line-mode
 			 activate compile)
-  (set-face-background hl-line-face "gray15"))
+  (set-face-background hl-line-face "gray13"))
 (global-hl-line-mode)
+
+;; ;; カーソルの色
+;; (set-cursor-color "#D8FAD4")
+
+;; regionの背景色
+;; (set-face-background 'region "#333366")
 
 ;; 古いバッファを全てrevertする
 ;; auto-insstall-from-url: http://www.neilvandyke.org/revbufs/revbufs.el
 (require 'revbufs)
 (global-set-key (kbd "C-c v") 'revbufs)
 
-;; popwin
-;; https://github.com/m2ym/popwin-el
-(when (require 'popwin nil t)
-  (setq display-buffer-function 'popwin:display-buffer)
-  (push '("^\*helm .+\*$" :regexp t) popwin:special-display-config)
-  (push '("^\*helm-.+\*$" :regexp t) popwin:special-display-config))
+;; ;; popwin
+;; ;; https://github.com/m2ym/popwin-el
+;; (when (require 'popwin nil t)
+;;   (setq display-buffer-function 'popwin:display-buffer)
+;;   (push '("^\*helm .+\*$" :regexp t) popwin:special-display-config)
+;;   (push '("^\*helm-.+\*$" :regexp t) popwin:special-display-config)
+;;   (push '("^\*magit:.+\*$" :regexp t) popwin:special-display-config)
+;;   ;; popwinを使っていると max-specpdl-size エラーと max-lisp-eval-depth エラーが出るので以下を追加
+;;   ;; http://d.hatena.ne.jp/a666666/20100221/1266695355
+;;   (setq max-specpdl-size 6000)
+;;   (setq max-lisp-eval-depth 1000)
+;;   )
 
 ;; expand-region
 (require 'expand-region)
@@ -488,3 +557,14 @@
 ;; https://github.com/Fuco1/smartparens
 (require 'smartparens-config)
 (smartparens-global-mode 1)
+
+;; ;;モードラインをかこよく
+;; ;; http://github.com/milkypostman/powerline/
+(when (require 'powerline nil t)
+  ;; Solarized themeに合わせた色に設定
+  (set-face-background 'powerline-active1 "#00629D")
+  (set-face-foreground 'powerline-active1 "#fdf6e3")
+  (set-face-background 'powerline-active2 "#268bd2")
+  (set-face-foreground 'powerline-active2 "#fdf6e3")
+  (powerline-default-theme))
+
