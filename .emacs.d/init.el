@@ -254,7 +254,7 @@
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
   (ac-config-default)
   ;; 補完開始までの遅延時間（秒数）
-  (setq ac-delay 1))
+  (setq ac-delay 0.3))
 
 ;; 検索
 (require 'color-moccur)
@@ -273,6 +273,13 @@
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
 
+;; redo+
+;; http://qiita.com/icb54615/items/cbcf021eec77f546c7b6
+(when (require 'redo+ nil t)
+  (global-set-key (kbd "C-?") 'redo)
+  (setq undo-no-redo t) ; 過去のundoがredoされないようにする
+  (setq undo-limit 600000)
+  (setq undo-strong-limit 900000))
 
 
 ;; ========================================================================================
@@ -291,6 +298,7 @@
 (setq helm-ff-transformer-show-only-basename nil)
 
 
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-:") 'helm-resume)
 (global-set-key (kbd "M-s") 'helm-occur)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -420,6 +428,13 @@
   (set (make-local-variable 'coffee-tab-width) 2))
 (add-hook 'coffee-mode-hook
 	  'coffee-mode-hooks)
+
+;; Less modeの設定
+(add-hook 'css-mode-hook
+	  (lambda ()
+	    (setq css-indent-offset 2)
+	    (setq indent-tabs-mode nil)
+	    ))
 
 ;; Markdown mode
 (autoload 'markdown-mode "markdown-mode.el"
