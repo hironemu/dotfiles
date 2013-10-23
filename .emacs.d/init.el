@@ -586,6 +586,10 @@
 ;; ローマ字のまま日本語検索 migemo
 ;; $ brew install cmigemo
 ;; migemo.el > https://github.com/emacs-jp/migemo
+;; C-yはヤンクしている内容を貼り付け
+(add-hook 'isearch-mode-hook
+	  (lambda ()
+	    (define-key isearch-mode-map "\C-y" 'isearch-yank-kill)))
 (when (require 'migemo)
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs" "-i" "\g"))
@@ -596,8 +600,9 @@
   (load-library "migemo")
   (migemo-init))
 
+
 ;; The Silver Searcher (ag)
-;; $ brew instal the_silver_searcher
+;; $ requirebrew instal the_silver_searcher
 ;; https://github.com/Wilfred/ag.el
 ;; 除外したいものは.agignoreに記述する
 (when (require 'ag))

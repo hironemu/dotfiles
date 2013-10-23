@@ -5,8 +5,8 @@
 ;; Author: Sebastian Wiesner <lunaryorn@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
 ;;     Sebastian Wiesner <lunaryorn@gmail.com>
-;; Version: 20131017.1010
-;; X-Original-Version: 0.3-cvs
+;; Version: 20131021.2022
+;; X-Original-Version: 0.3
 ;; Package-Requires: ((cl-lib "0.3"))
 ;; Keywords: convenience
 ;; URL: http://github.com/cask/epl
@@ -107,10 +107,6 @@
 
 (require 'cl-lib)
 (require 'package)
-
-(setq package-archives nil)             ; Clear the default list of archives to
-                                        ; let the user have exact control over
-                                        ; all archives
 
 (defun epl--package-desc-p (package)
   "Whether PACKAGE is a `package-desc' object.

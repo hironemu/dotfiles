@@ -1856,7 +1856,7 @@ according to `magit-remote-ref-format'"
   (let ((default-directory (magit-get-top-dir)))
     (magit-completing-read
      (format "Retrieve file from %s: " revision)
-     (magit-git-lines "ls-tree" "-r" "--name-only" revision)
+     (magit-git-lines "ls-tree" "-r" "-t" "--name-only" revision)
      nil 'require-match
      nil 'magit-read-file-hist
      (or default (magit-buffer-file-name t)))))
@@ -6189,7 +6189,13 @@ With a prefix argument edit the ignore string."
   (interactive "P")
   (magit-section-action (item info "ignore")
     ((untracked file)
-     (magit-ignore-file (concat "/" info) edit local))))
+     (magit-ignore-file (concat "/" info) edit local))
+    ((diff)
+     (let ((file (magit-section-title item)))
+       (when (yes-or-no-p
+              (format "%s is tracked.  Untrack and ignore? " file))
+         (magit-run-git "rm" "--cached" file)
+         (magit-ignore-file (concat "/" file) edit local))))))
 
 (defun magit-ignore-item-locally (edit)
   "Ignore the item at point locally only.
