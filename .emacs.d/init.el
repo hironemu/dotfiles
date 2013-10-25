@@ -297,7 +297,7 @@
 ;; http://mikio.github.io/article/2013/06/14_helm.html
 (setq helm-ff-transformer-show-only-basename nil)
 
-
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-:") 'helm-resume)
 (global-set-key (kbd "M-s") 'helm-occur)
@@ -457,13 +457,11 @@
 ;;; インデント数
 (defun web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-html-offset   2)
-  (setq web-mode-css-offset    2)
-  (setq web-mode-script-offset 2)
-  (setq web-mode-php-offset    2)
-  (setq web-mode-java-offset   2)
-  (setq web-mode-asp-offset    2)
-  ;(linum-mode 1)
+  (setq indent-tabs-mode nil)
+  (setq web-mode-markup-indent-offset 2) ;; html indent
+  (setq web-mode-css-indent-offset 2)    ;; css indent
+  (setq web-mode-code-indent-offset 2)   ;; script indent(js,php,etc..)
+  (define-key web-mode-map  (kbd "C-;") nil) ;; C-;は無効にする
   )
 (add-hook 'web-mode-hook 'web-mode-hook)
 
@@ -606,3 +604,11 @@
 ;; https://github.com/Wilfred/ag.el
 ;; 除外したいものは.agignoreに記述する
 (when (require 'ag))
+
+;; ========================================================================================
+;; org-modeの設定
+;; ========================================================================================
+(when (require 'org-install)
+  (setq org-directory "~/org/")
+  (setq org-default-notes-file "note.org")
+  (setq org-agenda-files (list org-default-notes-file )))
