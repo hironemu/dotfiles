@@ -588,7 +588,8 @@
 (add-hook 'isearch-mode-hook
 	  (lambda ()
 	    (define-key isearch-mode-map "\C-y" 'isearch-yank-kill)))
-(when (require 'migemo)
+(when (and (executable-find "cmigemo")
+	   (require 'migemo nil t))
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs" "-i" "\g"))
   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
@@ -603,7 +604,8 @@
 ;; $ requirebrew instal the_silver_searcher
 ;; https://github.com/Wilfred/ag.el
 ;; 除外したいものは.agignoreに記述する
-(when (require 'ag))
+(when (and (executable-find "ag")
+	   (require 'ag nil t)))
 
 ;; ========================================================================================
 ;; org-modeの設定
