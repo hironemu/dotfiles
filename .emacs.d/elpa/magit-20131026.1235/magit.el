@@ -469,6 +469,11 @@ a carefully crafted index."
   :group 'magit
   :type 'boolean)
 
+(defcustom magit-show-child-count nil
+  "Whether to append the number of childen to section headings."
+  :group 'magit
+  :type 'boolean)
+
 (defcustom magit-revert-item-confirm t
   "Require acknowledgment before reverting an item."
   :group 'magit
@@ -1096,6 +1101,8 @@ Many Magit faces inherit from this one by default."
 
 
 ;;; Keymaps
+
+(define-key git-commit-mode-map (kbd "C-c C-d") 'magit-diff-staged)
 
 (defvar magit-mode-map
   (let ((map (make-keymap)))
@@ -2104,9 +2111,10 @@ If TYPE is nil, the section won't be highlighted."
   (let ((s (make-symbol "*section*")))
     `(let* ((,s (magit-new-section ,title ,type))
             (magit-top-section ,s))
-       (setf (magit-section-beginning ,s) (point))
+       (setf (magit-section-beginning ,s) (point-marker))
        ,@body
-       (setf (magit-section-end ,s) (point))
+       (set-marker-insertion-type (magit-section-beginning ,s) t)
+       (setf (magit-section-end ,s) (point-marker))
        (setf (magit-section-children ,s)
              (nreverse (magit-section-children ,s)))
        ,s)))
@@ -2116,6 +2124,7 @@ If TYPE is nil, the section won't be highlighted."
   "Run PROGRAM with ARGS and put the output into a new section.
 Like `magit-git-section' (which see) but run PROGRAM instead of Git."
   (let* ((body-beg nil)
+         (children nil)
          (section-title (if (consp section-title-and-type)
                             (car section-title-and-type)
                           section-title-and-type))
@@ -2136,7 +2145,15 @@ Like `magit-git-section' (which see) but run PROGRAM instead of Git."
                 (narrow-to-region body-beg (point))
                 (goto-char (point-min))
                 (funcall washer)
-                (goto-char (point-max)))))))
+                (goto-char (point-max))))
+            (when (and buffer-title magit-show-child-count
+                       (> (setq children (length (magit-section-children
+                                                  magit-top-section))) 0))
+              (save-excursion
+                (goto-char (- body-beg 2))
+                (when (looking-at ":")
+                  (insert-before-markers-and-inherit
+                   (format " (%i)" children))))))))
     (if (= body-beg (point))
         (magit-cancel-section section)
       (insert "\n"))
@@ -6050,20 +6067,33 @@ from the parent keymap `magit-mode-map' are also available."
   "Name of buffer used to display a diff.")
 
 ;;;###autoload (autoload 'magit-diff "magit")
-(magit-define-command diff (range &optional working)
+(magit-define-command diff (range &optional working args)
   (interactive (list (magit-read-rev-range "Diff")))
-  (let ((buf (get-buffer-create magit-diff-buffer-name)))
+  (let ((buf (get-buffer-create magit-diff-buffer-name))
+        (dir default-directory))
     (display-buffer buf)
     (with-current-buffer buf
-      (magit-mode-init default-directory
-                       'magit-diff-mode
+      (magit-mode-init dir
+                       #'magit-diff-mode
                        #'magit-refresh-diff-buffer
-                       range working))))
+                       range working args))))
 
 ;;;###autoload (autoload 'magit-diff-working-tree "magit")
 (magit-define-command diff-working-tree (rev)
   (interactive (list (magit-read-rev-with-default "Diff working tree with")))
   (magit-diff (or rev "HEAD") t))
+
+;;;###autoload (autoload 'magit-diff-working-tree "magit")
+(magit-define-command diff-staged ()
+  "Show differences between index and HEAD."
+  (interactive)
+  (magit-diff nil nil (list "--cached")))
+
+;;;###autoload (autoload 'magit-diff-working-tree "magit")
+(magit-define-command diff-unstaged ()
+  "Show differences between working tree and index."
+  (interactive)
+  (magit-diff nil))
 
 (defun magit-diff-with-mark (range)
   (interactive
@@ -6080,9 +6110,10 @@ from the parent keymap `magit-mode-map' are also available."
      (list (concat marked ".." commit))))
   (magit-diff range))
 
-(defun magit-refresh-diff-buffer (range working)
+(defun magit-refresh-diff-buffer (range working args)
   (let ((magit-current-diff-range
          (cond (working (cons range 'working))
+               ((null range) nil)
                ((consp range)
                 (prog1 range
                   (setq range (concat (car range) ".." (cdr range)))))
@@ -6092,13 +6123,18 @@ from the parent keymap `magit-mode-map' are also available."
     (magit-create-buffer-sections
       (apply #'magit-git-section
              'diffbuf
-             (if working
-                 (format "Changes from %s to working tree" range)
-               (format "Changes in %s" range))
+             (cond (working
+                    (format "Changes from %s to working tree" range))
+                   ((not range)
+                    (if (member "--cached" args)
+                        "Staged changes"
+                      "Unstaged changes"))
+                   (t
+                    (format "Changes in %s" range)))
              'magit-wash-diffs
              "diff" (magit-diff-U-arg)
              `(,@(and magit-show-diffstat (list "--patch-with-stat"))
-               ,range "--")))))
+               ,@(and range (list range)) ,@args "--")))))
 
 ;;; Wazzup Mode
 
