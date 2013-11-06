@@ -6,7 +6,6 @@
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-
 ;; 独自にインストールしたパッケージのロード
 (defun add-to-load-path (&rest paths)
   (let (path)
@@ -293,6 +292,15 @@
 (setq helm-idle-delay 0.3
       helm-input-idle-delay 0.1
       helm-candidate-number-limit 200)
+;; 自動補完を無効
+(custom-set-variables '(helm-ff-auto-update-initial-value nil))
+;; C-hで文字を削除
+(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+;; Tabでパスを補完する
+(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
+;; C-zでアクション選択
+(define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
+
 ;; HelmのFile listでパスを表示する
 ;; http://mikio.github.io/article/2013/06/14_helm.html
 (setq helm-ff-transformer-show-only-basename nil)
@@ -348,9 +356,6 @@
 
 ;; ruby-mode-hook用関数定義
 (defun ruby-mode-hooks ()
-  ;; (inf-ruby-keys)
-  ;; (ruby-tools-mode t)
-  (ruby-end-mode t)
   ;; C-;がhelm-miniの起動とかぶるのでC-.に変更
   (define-key ruby-tools-mode-map (kbd "C-;") nil)
   (define-key ruby-tools-mode-map (kbd "C-.") 'ruby-tools-clear-string)
@@ -363,24 +368,25 @@
   ;; 引数のリストを改行して揃えるときインデントが深くなりすぎるのを防ぐ
   (setq ruby-deep-indent-paren nil)
   ;; Rubyのシンタックスチェックを行う
-  (flymake-ruby-load)
+  ;; (flymake-ruby-load)
   ;; ruby-modeで起動するファイル
   ;; http://stackoverflow.com/questions/11027783/how-can-i-cons-a-list-of-pairs-on-to-auto-mode-alist
   (let* ((ruby-files '(".rake" ".thor" "Gemfile" "Rakefile" "Crushfile" "Capfile" "Guardfile"))
 	 (ruby-regexp (concat (regexp-opt ruby-files t) "\\'")))
-    (add-to-list 'auto-mode-alist (cons ruby-regexp 'enh-ruby-mode)))
+    (add-to-list 'auto-mode-alist (cons ruby-regexp 'ruby-mode)))
   ;; ソースコードの折りたたみ
   (hs-minor-mode 1)
   (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
   (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
   (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
   )
+
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
 ;; (add-hook 'enh-ruby-mode-hook
 ;; 	  'ruby-mode-hooks)
-
-;; (require 'hideshow-org)
+;; ;; enh-ruby-modeのface設定を無効にしたいけど、これでは出来ない・・。
+;; (remove-hook 'enh-ruby-mode-hook 'bw/enh-ruby-mode-faces)
 
 ;; ソースコードの折りたたみ
 ;; http://yoosee.net/d/archives/2007/01/30/002.html
@@ -614,3 +620,5 @@
   (setq org-directory "~/org/")
   (setq org-default-notes-file "note.org")
   (setq org-agenda-files (list org-default-notes-file )))
+
+
