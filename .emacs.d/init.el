@@ -284,22 +284,12 @@
 ;; ========================================================================================
 ;; Helmの設定
 ;; ========================================================================================
-(helm-mode 1)
+(require 'helm-config)
+
+(helm-descbinds-mode)
+(require 'helm-migemo)
+(setq helm-use-migemo t)
 (global-set-key (kbd "C-;") 'helm-mini)
-;; 色々なhelmのコマンドとか以下のサイトを参考に。
-;; http://sleepboy-zzz.blogspot.jp/2012/09/anythinghelm.html
-(require 'helm-descbinds)
-(setq helm-idle-delay 0.3
-      helm-input-idle-delay 0.1
-      helm-candidate-number-limit 200)
-;; 自動補完を無効
-(custom-set-variables '(helm-ff-auto-update-initial-value nil))
-;; C-hで文字を削除
-(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
-;; Tabでパスを補完する
-(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
-;; C-zでアクション選択
-(define-key helm-find-files-map (kbd "C-z") 'helm-select-action)
 
 ;; HelmのFile listでパスを表示する
 ;; http://mikio.github.io/article/2013/06/14_helm.html
@@ -312,6 +302,7 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-c s") 'helm-do-grep)
 (global-set-key (kbd "C-c h") 'helm-descbinds)
+(global-set-key (kbd "C-c ;") 'helm-resume)
 
 ;; ========================================================================================
 ;; = magitの設定
@@ -334,7 +325,6 @@
 ;; https://github.com/bbatsov/projectile
 (when (require 'projectile nil t)
   (projectile-global-mode)
-  (global-set-key (kbd "C-c h") 'helm-projectile)
   )
 
 ;; ========================================================================================
