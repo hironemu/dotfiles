@@ -46,3 +46,10 @@ export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
 
 # No correct
 alias ag='nocorrect ag'
+
+# for go lang
+if [ -x "`which go`" ]; then
+  export GOROOT=`go env GOROOT`
+  export GOPATH=$HOME/go
+  export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+fi

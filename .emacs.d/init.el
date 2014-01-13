@@ -17,22 +17,27 @@
 	    (normal-top-level-add-subdirs-to-load-path))))))
 (add-to-load-path "elisp")
 
-;; Pathの設定
-(dolist (dir (list
-              "/sbin"
-              "/usr/sbin"
-              "/bin"
-              "/usr/bin"
-              "/opt/local/bin"
-              "/sw/bin"
-              "/usr/local/bin"
-              (expand-file-name "~/bin")
-              (expand-file-name "~/.emacs.d/bin")
-              ))
-  ;; PATH と exec-path に同じ物を追加します
-  (when (and (file-exists-p dir) (not (member dir exec-path)))
-    (setenv "PATH" (concat dir ":" (getenv "PATH")))
-    (setq exec-path (append (list dir) exec-path))))
+;; PATHの設定をシェルの設定から持ってくる
+;; $SHELLで設定されているシェルの設定が使われる
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+;; (dolist (dir (list
+;;               "/sbin"
+;;               "/usr/sbin"
+;;               "/bin"
+;;               "/usr/bin"
+;;               "/opt/local/bin"
+;;               "/sw/bin"
+;;               "/usr/local/bin"
+;;               (expand-file-name "~/bin")
+;;               (expand-file-name "~/.emacs.d/bin")
+;;               ))
+;;   ;; PATH と exec-path に同じ物を追加します
+;;   (when (and (file-exists-p dir) (not (member dir exec-path)))
+;;     (setenv "PATH" (concat dir ":" (getenv "PATH")))
+;;     (setq exec-path (append (list dir) exec-path))))
+
 
 ;;auto-installの設定
 (when(require 'auto-install nil t)
@@ -611,4 +616,18 @@
   (setq org-default-notes-file "note.org")
   (setq org-agenda-files (list org-default-notes-file )))
 
-
+;; ========================================================================================
+;; goの設定
+;; ========================================================================================
+(when (require 'go-mode nil t)
+  ;; GOROOT, GOPATH環境変数を読み込む
+  (let ((envs '("GOROOT" "GOPATH")))
+    (exec-path-from-shell-copy-envs envs))
+  ;; go-autocompleteの読み込み
+  (eval-after-load "go-mode"
+    '(progn
+       (require 'go-autocomplete)))
+  ;; goflaymakeの読み込み
+  (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/dougm/goflymake"))
+  (require 'go-flymake)
+  )
