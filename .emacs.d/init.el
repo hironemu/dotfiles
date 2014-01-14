@@ -292,7 +292,7 @@
 (require 'helm-config)
 
 (helm-descbinds-mode)
-(require 'helm-migemo)
+;; (require 'helm-migemo)
 (setq helm-use-migemo t)
 (global-set-key (kbd "C-;") 'helm-mini)
 
@@ -582,23 +582,23 @@
   (set-face-foreground 'powerline-active2 "#fdf6e3")
   (powerline-default-theme))
 
-;; ローマ字のまま日本語検索 migemo
-;; $ brew install cmigemo
-;; migemo.el > https://github.com/emacs-jp/migemo
-;; C-yはヤンクしている内容を貼り付け
-(add-hook 'isearch-mode-hook
-	  (lambda ()
-	    (define-key isearch-mode-map "\C-y" 'isearch-yank-kill)))
-(when (and (executable-find "cmigemo")
-	   (require 'migemo nil t))
-  (setq migemo-command "cmigemo")
-  (setq migemo-options '("-q" "--emacs" "-i" "\g"))
-  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-  (setq migemo-user-dictionary nil)
-  (setq migemo-regex-dictionary nil)
-  (setq migemo-coding-system 'utf-8-unix)
-  (load-library "migemo")
-  (migemo-init))
+;; ;; ローマ字のまま日本語検索 migemo
+;; ;; $ brew install cmigemo
+;; ;; migemo.el > https://github.com/emacs-jp/migemo
+;; ;; C-yはヤンクしている内容を貼り付け
+;; (add-hook 'isearch-mode-hook
+;; 	  (lambda ()
+;; 	    (define-key isearch-mode-map "\C-y" 'isearch-yank-kill)))
+;; (when (and (executable-find "cmigemo")
+;; 	   (require 'migemo nil t))
+;;   (setq migemo-command "cmigemo")
+;;   (setq migemo-options '("-q" "--emacs" "-i" "\g"))
+;;   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+;;   (setq migemo-user-dictionary nil)
+;;   (setq migemo-regex-dictionary nil)
+;;   (setq migemo-coding-system 'utf-8-unix)
+;;   (load-library "migemo")
+;;   (migemo-init))
 
 
 ;; The Silver Searcher (ag)
