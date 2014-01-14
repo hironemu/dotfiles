@@ -619,7 +619,7 @@
 ;; ========================================================================================
 ;; goの設定
 ;; ========================================================================================
-(when (require 'go-mode nil t)
+(when (and (require 'go-mode nil t) (executable-find "go"))
   ;; GOROOT, GOPATH環境変数を読み込む
   (let ((envs '("GOROOT" "GOPATH")))
     (exec-path-from-shell-copy-envs envs))
