@@ -630,4 +630,11 @@
   ;; goflaymakeの読み込み
   (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/dougm/goflymake"))
   (require 'go-flymake)
+
+  ;; go-eldocの設定
+  ;; https://github.com/syohex/emacs-go-eldoc
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
+  (set-face-attribute 'eldoc-highlight-function-argument nil
+		      :underline t :foreground "green"
+		      :weight 'bold)
   )
