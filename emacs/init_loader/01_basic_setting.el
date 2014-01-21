@@ -312,7 +312,7 @@
   (setq ruby-block-highlight-toggle t))
 
 (require 'ruby-tools)
-;;(require 'helm-rdefs)
+(require 'helm-rdefs)
 
 ;; ruby-mode-hook用関数定義
 (defun ruby-mode-hooks ()
