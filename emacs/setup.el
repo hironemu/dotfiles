@@ -101,7 +101,7 @@
     pkg-info projectile
 
     ;; basic
-    init-loader solarized-theme zenburn-theme exec-path-from-shell anzu redo+ maxframe
+    init-loader solarized-theme zenburn-theme exec-path-from-shell anzu redo+ maxframe dash-at-point
     
     ))
 (defvar sub-packages

@@ -610,3 +610,9 @@
 (setq flycheck-display-errors-delay 0.3) ; エラーメッセージ表示までの時間(デフォルト0.9秒)
 (add-hook 'c-mode-common-hook 'flycheck-mode)
 (add-hook 'ruby-mode-hook 'flycheck-mode)
+
+
+;; dash-at-point
+(global-set-key "\C-cd" 'dash-at-point)
+(global-set-key "\C-ce" 'dash-at-point-with-docset)
+(add-to-list 'dash-at-point-mode-alist '(web-mode . "html"))
