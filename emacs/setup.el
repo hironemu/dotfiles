@@ -73,12 +73,19 @@
     ;; Haml
     haml-mode
 
+    ;; jade
+    jade-mode
+
     ;; go
     go-mode
 
     ;; ruby
-    rvm ruby-block ruby-compilation ruby-end ruby-interpolation
-    ruby-test-mode ruby-tools inf-ruby ruby-refactor yari
+    rvm ruby-block
+    ruby-tools
+    ; enh-ruby-mode ruby-compilation ruby-interpolation ruby-test-mode yari inf-ruby ruby-refactor ruby-end
+
+    ;; Dockerfile mode
+    dockerfile-mode
     
     ;; emacs-lisp
     elisp-slime-nav thingopt
@@ -89,6 +96,9 @@
     ;;;; markup language
     htmlize web-mode yaml-mode emmet-mode
     markdown-mode markdown-mode+
+
+    ;; php
+    php-mode
 
     ;; helm
     helm
@@ -102,6 +112,8 @@
 
     ;; basic
     init-loader solarized-theme zenburn-theme exec-path-from-shell anzu redo+ maxframe dash-at-point
+    
+    powerline
     
     ))
 (defvar sub-packages

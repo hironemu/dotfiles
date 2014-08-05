@@ -19,3 +19,5 @@ emacs/.mc-lists.el
 emacs/history
 emacs/bookmarks
 emacs/projectile-bookmarks.eld
+emacs/projectile.cache
+emacs/tramp

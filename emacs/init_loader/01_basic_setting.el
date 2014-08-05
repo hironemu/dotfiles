@@ -21,6 +21,9 @@
 ;; (setq auto-save-default nil)
 ;; (setq backup-inhibited t)
 
+;; ダイアログボックスを使わない
+(setq use-dialog-box nil)
+
 ;disable backup
 (setq backup-inhibited t)
 ;disable auto save
@@ -30,7 +33,10 @@
 (tool-bar-mode 0)
 
 ;; スクロールバーを消す
-(toggle-scroll-bar nil)
+(scroll-bar-mode -1)
+;; yascroll
+;; http://d.hatena.ne.jp/m2ym/20110401/1301617991
+(global-yascroll-bar-mode 1)
 
 ;; タイトルバーにフルパスを表示
 (setq frame-title-format "%f")
@@ -55,6 +61,9 @@
 (global-set-key (kbd "C-t") 'other-window-or-split)
 (global-set-key (kbd "C-S-T") 'other-window-back)
 
+;; 指定した行にジャンプ
+(global-set-key (kbd "M-g") 'goto-line)
+
 ;; 折り返しトグルコマンド
 (define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
 
@@ -65,7 +74,7 @@
 (desktop-save-mode t)
 
 ;; Windowの透過
-;(set-frame-parameter nil 'alpha 93)
+;;(set-frame-parameter nil 'alpha 93)
 
 ;; 起動時にWindowを最大化
 (require 'maxframe)
@@ -128,7 +137,7 @@
 
 ;; テーマファイルの場所
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
+(load-theme 'solarized-dark t)
 ;; Ricty fontの使用と設定
 ;; http://blog.nyarla.net/2011/10/28/1
 ;; (let* ((size 16)
@@ -159,58 +168,6 @@
   (set-fontset-font t 'katakana-jisx0201 jp-fontspec)
   (set-fontset-font t '(#x0080 . #x024F) fontspec) 
   (set-fontset-font t '(#x0370 . #x03FF) fontspec))
-
-(dolist (elt '(("^-apple-hiragino.*" . 1.2)
-	       (".*osaka-bold.*" . 1.2)
-	       (".*osaka-medium.*" . 1.2)
-	       (".*courier-bold-.*-mac-roman" . 1.0)
-	       (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-	       (".*monaco-bold-.*-mac-roman" . 0.9)))
-  (add-to-list 'face-font-rescale-alist elt))
-
-;; フォントサイズを一時的に変更する
-;; http://emacs-fu.blogspot.jp/2008/12/zooming-inout.html
-(defun djcb-zoom (n)
-  "with positive N, increase the font size, otherwise decrease it"
-  (set-face-attribute 'default (selected-frame) :height 
-    (+ (face-attribute 'default :height) (* (if (> n 0) 1 -1) 10)))) 
-(global-set-key (kbd "C-+")      '(lambda nil (interactive) (djcb-zoom 1)))
-(global-set-key [C-kp-add]       '(lambda nil (interactive) (djcb-zoom 1)))
-(global-set-key (kbd "C--")      '(lambda nil (interactive) (djcb-zoom -1)))
-(global-set-key [C-kp-subtract]  '(lambda nil (interactive) (djcb-zoom -1)))
-
-;; custom-theme-load-pathで指定したディレクトリにテーマファイルを配置
-;; M-x customize-themesでテーマを選択
-;; 設定を保存するボタンを押すと自動で以下の設定が保存される
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#002b36" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
- '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes (quote ("e9a1226ffed627ec58294d77c62aa9561ec5f42309a1f7a2423c6227e34e3581" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "211bb9b24001d066a646809727efb9c9a2665c270c753aa125bace5e899cb523" "1d1622e8bc2292dab58d7ba452cef0ac81463dcf021f3f5a65afb0d551c1d746" "e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" default)))
- '(fci-rule-color "#073642")
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-tail-colors (quote (("#073642" . 0) ("#546E00" . 20) ("#00736F" . 30) ("#00629D" . 50) ("#7B6000" . 60) ("#8B2C02" . 70) ("#93115C" . 85) ("#073642" . 100))))
- '(syslog-debug-face (quote ((t :background unspecified :foreground "#2aa198" :weight bold))))
- '(syslog-error-face (quote ((t :background unspecified :foreground "#dc322f" :weight bold))))
- '(syslog-hour-face (quote ((t :background unspecified :foreground "#859900"))))
- '(syslog-info-face (quote ((t :background unspecified :foreground "#268bd2" :weight bold))))
- '(syslog-ip-face (quote ((t :background unspecified :foreground "#b58900"))))
- '(syslog-su-face (quote ((t :background unspecified :foreground "#d33682"))))
- '(syslog-warn-face (quote ((t :background unspecified :foreground "#cb4b16" :weight bold))))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map (quote ((20 . "#dc322f") (40 . "#CF4F1F") (60 . "#C26C0F") (80 . "#b58900") (100 . "#AB8C00") (120 . "#A18F00") (140 . "#989200") (160 . "#8E9500") (180 . "#859900") (200 . "#729A1E") (220 . "#609C3C") (240 . "#4E9D5B") (260 . "#3C9F79") (280 . "#2aa198") (300 . "#299BA6") (320 . "#2896B5") (340 . "#2790C3") (360 . "#268bd2"))))
- '(vc-annotate-very-old-color nil)
- '(weechat-color-list (quote (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 
 ;; auto-completeの設定
 ;; 入力補完を行う
@@ -258,12 +215,8 @@
 
 (helm-descbinds-mode)
 ;; (require 'helm-migemo)
-(setq helm-use-migemo t)
+;; (setq helm-use-migemo t)
 (global-set-key (kbd "C-;") 'helm-mini)
-
-;; HelmのFile listでパスを表示する
-;; http://mikio.github.io/article/2013/06/14_helm.html
-(setq helm-ff-transformer-show-only-basename nil)
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -288,6 +241,10 @@
      (set-face-foreground 'magit-diff-del "red3")
      (when (not window-system)
        (set-face-background 'magit-item-highlight "black"))))
+
+;; GitGutter
+;; https://github.com/syohex/emacs-git-gutter
+(global-git-gutter-mode +1)
 
 ;; ========================================================================================
 ;; Projectileの設定
@@ -324,7 +281,12 @@
   (local-set-key "\r" 'newline-and-indent)
 
   ;; 行番号の表示
-  (linum-mode 1)
+  ;; http://d.hatena.ne.jp/daimatz/20120215/1329248780
+  ;; (linum-mode 1)
+  ;; (setq linum-delay t)
+  ;; (defadvice linum-schedule (around my-linum-schedule () activate)
+  ;;   (run-with-idle-timer 0.2 nil #'linum-update-current))
+  
   ;; 引数のリストを改行して揃えるときインデントが深くなりすぎるのを防ぐ
   (setq ruby-deep-indent-paren nil)
   ;; Rubyのシンタックスチェックを行う
@@ -332,34 +294,37 @@
   ;; ruby-modeで起動するファイル
   ;; http://stackoverflow.com/questions/11027783/how-can-i-cons-a-list-of-pairs-on-to-auto-mode-alist
   (let* ((ruby-files '(".rake" ".thor" "Gemfile" "Rakefile" "Crushfile" "Capfile" "Guardfile"))
-	 (ruby-regexp (concat (regexp-opt ruby-files t) "\\'")))
+  	 (ruby-regexp (concat (regexp-opt ruby-files t) "\\'")))
     (add-to-list 'auto-mode-alist (cons ruby-regexp 'ruby-mode)))
-  ;; ソースコードの折りたたみ
-  (hs-minor-mode 1)
-  (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
-  (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
-  (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
+  ;; ;; ソースコードの折りたたみ
+  ;; (hs-minor-mode 1)
+  ;; (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
+  ;; (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
+  ;; (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
   )
 
+;;(require 'enh-ruby-mode)
+;;(remove-hook 'enh-ruby-mode-hook 'erm-define-faces)
 (add-hook 'ruby-mode-hook
 	  'ruby-mode-hooks)
 ;; (add-hook 'enh-ruby-mode-hook
 ;; 	  'ruby-mode-hooks)
-;; ;; enh-ruby-modeのface設定を無効にしたいけど、これでは出来ない・・。
-;; (remove-hook 'enh-ruby-mode-hook 'bw/enh-ruby-mode-faces)
 
-;; ソースコードの折りたたみ
-;; http://yoosee.net/d/archives/2007/01/30/002.html
-(let ((ruby-mode-hs-info
-       '(ruby-mode
-	 "class\\|module\\|def\\|if\\|unless\\|case\\|while\\|until\\|for\\|begin\\|do"
-	 "end"
-	 "#"
-	 ruby-move-to-block
-	 nil)))
-  (if (not (member ruby-mode-hs-info hs-special-modes-alist))
-      (setq hs-special-modes-alist
-            (cons ruby-mode-hs-info hs-special-modes-alist))))
+;; ;; ソースコードの折りたたみ
+;; ;; http://yoosee.net/d/archives/2007/01/30/002.html
+;; (let ((ruby-mode-hs-info
+;;        '(ruby-mode
+;; 	 "class\\|module\\|def\\|if\\|unless\\|case\\|while\\|until\\|for\\|begin\\|do"
+;; 	 "end"
+;; 	 "#"
+;; 	 ruby-move-to-block
+;; 	 nil)))
+;;   (if (not (member ruby-mode-hs-info hs-special-modes-alist))
+;;       (setq hs-special-modes-alist
+;;             (cons ruby-mode-hs-info hs-special-modes-alist))))
+
+
+
 
 
 ;; Emacs 24.1にしてからhaml-modeのシンタックスハイライトがおかしいので以下を使う
@@ -432,6 +397,21 @@
 (add-hook 'web-mode-hook 'web-mode-hook)
 
 (setq js-indent-level 2)
+
+;; ;; php-mode 設定
+;; (add-hook 'php-mode-hook
+;; 	  (lambda ()
+;; 	    (defun ywb-php-lineup-arglist-intro (langelem)
+;; 	      (save-excursion
+;; 		(goto-char (cdr langelem))
+;; 		(vector (+ (current-column) c-basic-offset))))
+;; 	    (defun ywb-php-lineup-arglist-close (langelem)
+;; 	      (save-excursion
+;; 		(goto-char (cdr langelem))
+;; 		(vector (current-column))))
+;; 	    (setq indent-tabs-mode nil)
+;; 	    (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro)
+;; 	    (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close)))
 
 ;; muliple-cursors
 (require 'multiple-cursors)

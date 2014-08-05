@@ -56,6 +56,11 @@ if [ -x "`which go`" ]; then
   export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fi
 
+# user commands
+if [ -d ~/bin ]; then
+  export PATH=$PATH:~/bin
+fi
+
 # for Emacs
 if [ -d ~/.emacs.d/bin ]; then
   export PATH=$PATH:~/.emacs.d/bin

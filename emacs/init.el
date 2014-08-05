@@ -18,3 +18,4 @@
 ;; init-loader
 (require 'init-loader)
 (init-loader-load (concat user-emacs-directory "init_loader"))
+(put 'upcase-region 'disabled nil)
