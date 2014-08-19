@@ -56,6 +56,11 @@ if [ -x "`which go`" ]; then
   export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fi
 
+# for Direnv
+if [ -x "`which direnv`" ]; then
+  eval "$(direnv hook zsh)"
+fi
+
 # user commands
 if [ -d ~/bin ]; then
   export PATH=$PATH:~/bin
