@@ -146,8 +146,8 @@
 
 
 ;; テーマファイルの場所
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'solarized-dark t)
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;; (load-theme 'solarized-dark t)
 ;; Ricty fontの使用と設定
 ;; http://blog.nyarla.net/2011/10/28/1
 ;; (let* ((size 16)
