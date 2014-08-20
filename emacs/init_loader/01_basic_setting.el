@@ -101,6 +101,16 @@
 (setq
  uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+;; 開いているファイルのパスをコピー
+;; http://d.hatena.ne.jp/CortYuming/20130802/p1
+(defun copy-file-path ()
+  "Show the full path file name in the minibuffer and copy to kill ring."
+  (interactive)
+  (when buffer-file-name
+    (kill-new (file-truename buffer-file-name))
+    (message (concat "Copied: " buffer-file-name))))
+(global-set-key (kbd "C-c f") 'copy-file-path)
+
 ;; Elscreen
 ;; http://d.hatena.ne.jp/sky-y/20120830/1346333199
 (when (>= emacs-major-version 24)
@@ -152,7 +162,7 @@
 ;;   (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
 ;;   (set-fontset-font nil '(#x0080 . #x024F) fontspec) 
 ;;   (set-fontset-font nil '(#x0370 . #x03FF) fontspec))
-(let* ((size 16)
+(let* ((size 15)
        (asciifont "Ricty") ; ASCII fonts
        (jpfont "Ricty") ; Japanese fonts
        (h (* size 10))
