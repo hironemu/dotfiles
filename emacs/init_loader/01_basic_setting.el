@@ -311,6 +311,9 @@
   ;; (define-key hs-minor-mode-map (kbd "C-c ,l") 'hs-hide-level)
   ;; (define-key hs-minor-mode-map (kbd "C-c ,s") 'hs-show-all)
   ;; (define-key ruby-mode-map (kbd "M-1") 'helm-rdefs)
+
+  ;; マジックコメントを自動で入れない
+  (setq ruby-insert-encoding-magic-comment nil)
   )
 
 ;;(require 'enh-ruby-mode)
