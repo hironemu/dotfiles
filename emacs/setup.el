@@ -25,129 +25,20 @@
 (add-to-list 'load-path my/elisp-directory)
 
 ;; curlコマンドがインストールされているかチェック
-(dolist (cmd '("curl"))
+(dolist (cmd '("curl" "cask"))
   (unless (executable-find cmd)
     (error "Please install %s" cmd)))
 
-;; Emacs package system の設定
-;; package.elでインストールしたファイルはelpaディレクトリ以下にインストールされる
-(require 'package)
-(setq package-user-dir (concat user-emacs-directory "elpa"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(package-initialize)
+;; Emacs package system
+(require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
+(cask-initialize user-emacs-directory)
 
-;; パッケージの情報を更新
-(package-refresh-contents)
-
-;; インストールするパッケージをここで指定
-(defvar base-packages
-  '(
-    ;;;; for auto-complete
-    auto-complete fuzzy popup pos-tip
-
-    ;;;; editing utilities
-    expand-region wrap-region
-    undo-tree multiple-cursors smartrep
-    yasnippet goto-chg
-    smartparens
-    ag
-
-    ;;;; buffer utils
-    elscreen yascroll
-
-    ;;;; programming
-    
-    ;;flymake
-    flycheck
-    ;;flymake-coffee flymake-css flymake-easy flymake-haml flymake-ruby flymake-sass
-
-    ;; coffee-script
-    coffee-mode
-
-    ;; SASS, SCSS
-    sass-mode scss-mode
-
-    ;; LESS
-    less-css-mode
-
-    ;; Haml
-    haml-mode
-
-    ;; jade
-    jade-mode
-
-    ;; go
-    go-mode
-
-    ;; ruby
-    rvm ruby-block
-    ruby-tools
-    ; enh-ruby-mode ruby-compilation ruby-interpolation ruby-test-mode yari inf-ruby ruby-refactor ruby-end
-
-    ;; Dockerfile mode
-    dockerfile-mode
-    
-    ;; emacs-lisp
-    elisp-slime-nav thingopt
-
-    ;; common utility
-    quickrun s
-
-    ;;;; markup language
-    htmlize web-mode yaml-mode emmet-mode
-    markdown-mode markdown-mode+
-
-    ;; php
-    php-mode
-
-    ;; helm
-    helm
-
-    ;; git
-    magit git-gutter git-commit-mode git-rebase-mode
-
-    ;; directory operation
-    direx 
-    pkg-info projectile
-
-    ;; basic
-    init-loader solarized-theme zenburn-theme exec-path-from-shell anzu redo+ maxframe dash-at-point
-    
-    powerline
-    
-    ))
-(defvar sub-packages
-  '(
-    ;; auto-complete
-    go-autocomplete
-
-    ;; popwin
-    ;import-popwin
-
-    ;; go
-    go-eldoc
-
-    ;; helm
-    helm-descbinds helm-ag helm-c-moccur helm-projectile
-    ))
-
-;; ELPA外のパッケージ
+;; ELPA, Github 以外のパッケージ
 (defvar my/nonelpa-packages-url
   '(
-    "https://raw.github.com/emacsmirror/auto-highlight-symbol/master/auto-highlight-symbol.el"
+    ;; revert buffer
     "http://www.neilvandyke.org/revbufs/revbufs.el"
     ))
-
-;; ベースパッケージのインストール
-(dolist (package base-packages)
-  (when (or (not (package-installed-p package))
-            (memq package '(cperl-mode ruby-mode)))
-    (package-install package)))
-
-;; サブパッケージのインストール
-(dolist (package sub-packages)
-  (unless (package-installed-p package)
-    (package-install package)))
 
 ;; urlで指定されたファイルをダウンロード
 (defun my/download-url (url)

@@ -11,6 +11,7 @@ locals.zsh
 projects.zsh
 *.swp
 *.dat
+emacs/.cask
 emacs/elpa
 emacs/elisps
 emacs/ac-comphist.dat
