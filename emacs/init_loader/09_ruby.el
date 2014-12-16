@@ -24,9 +24,6 @@
   ;; C-;がhelm-miniの起動とかぶるのでC-.に変更
   (define-key ruby-tools-mode-map (kbd "C-;") nil)
   (define-key ruby-tools-mode-map (kbd "C-.") 'ruby-tools-clear-string)
-
-  ;; Returnキーを押した時改行と同時にインデントも行う
-  (local-set-key "\r" 'newline-and-indent)
   
   ;; 引数のリストを改行して揃えるときインデントが深くなりすぎるのを防ぐ
   (setq ruby-deep-indent-paren nil)

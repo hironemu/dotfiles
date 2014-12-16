@@ -47,7 +47,6 @@
 (depends-on "markdown-mode")
 (depends-on "markdown-mode+")
 (depends-on "textile-mode")
-(depends-on "pandoc-mode")
 
 ;; emacs-lisp
 (depends-on "elisp-slime-nav")

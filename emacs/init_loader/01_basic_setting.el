@@ -114,6 +114,13 @@
 (require 'smartparens-config)
 (smartparens-global-mode 1)
 
-;; highlight-symbol
-(setq highlight-symbol-idle-delay 0.3)
-(add-hook 'ruby-mode-hook 'highlight-symbol-mode)
+;; ;; ;; highlight-symbol
+;; (require 'highlight-symbol)
+;; (global-set-key (kbd "C-i") 'highlight-symbol-at-point)
+;; (global-set-key (kbd "C-S-j") 'highlight-symbol-next)
+;; (global-set-key (kbd "C-S-k") 'highlight-symbol-prev)
+
+;; show-paren-mode
+(show-paren-mode 1)
+(set-face-background 'show-paren-match-face "RoyalBlue3")
+(set-face-background 'show-paren-mismatch-face "Red")
