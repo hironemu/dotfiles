@@ -11,6 +11,7 @@
 #### oh-my-zshの設定とか
 
 	$ ln -s ~/dotfiles/.zshrc ~/.zshrc 
+	$ ln -s ~/dotfiles/.editrc ~/.editrc
 	
 #### .emacs.dのシンボリックリンクを作成
 
