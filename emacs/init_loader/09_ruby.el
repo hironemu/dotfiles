@@ -30,7 +30,7 @@
   
   ;; ruby-modeで起動するファイル
   ;; http://stackoverflow.com/questions/11027783/how-can-i-cons-a-list-of-pairs-on-to-auto-mode-alist
-  (let* ((ruby-files '(".rake" ".thor" "Gemfile" "Rakefile" "Crushfile" "Capfile" "Guardfile"))
+  (let* ((ruby-files '(".rake" ".thor" "Gemfile" "Rakefile" "Crushfile" "Capfile" "Guardfile" "rabl"))
   	 (ruby-regexp (concat (regexp-opt ruby-files t) "\\'")))
     (add-to-list 'auto-mode-alist (cons ruby-regexp 'ruby-mode)))
 

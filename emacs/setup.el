@@ -37,7 +37,7 @@
 (defvar my/nonelpa-packages-url
   '(
     ;; revert buffer
-    "http://www.neilvandyke.org/revbufs/revbufs.el"
+    "https://raw.githubusercontent.com/carljm/dotfiles/master/emacs.d/revbufs.el"
     ))
 
 ;; urlで指定されたファイルをダウンロード

@@ -19,7 +19,8 @@
 (setq frame-title-format "%f")
 
 ;; C-hでバックスペース
-(global-set-key "\C-h" 'delete-backward-char)
+;(global-set-key "\C-h" 'delete-backward-char)
+(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 
 ;; C-jで改行+インデント
 (global-set-key "\C-j" 'newline-and-indent)
@@ -114,7 +115,7 @@
 (require 'smartparens-config)
 (smartparens-global-mode 1)
 
-;; ;; ;; highlight-symbol
+;; ;; highlight-symbol
 ;; (require 'highlight-symbol)
 ;; (global-set-key (kbd "C-i") 'highlight-symbol-at-point)
 ;; (global-set-key (kbd "C-S-j") 'highlight-symbol-next)

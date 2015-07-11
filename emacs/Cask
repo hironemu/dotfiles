@@ -21,6 +21,7 @@
 ;; buffer utils
 (depends-on "elscreen")
 (depends-on "yascroll")
+(depends-on "helm-swoop")
 
 ;;flymake
 (depends-on "flycheck")
@@ -37,6 +38,7 @@
 (depends-on "ruby-block")
 (depends-on "ruby-tools")
 (depends-on "dockerfile-mode")
+(depends-on "swift-mode")
 (depends-on "rspec-simple" :git "https://github.com/code-mancers/rspec-simple.git" :files ("*"))
 
 ;;;; markup language

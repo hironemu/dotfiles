@@ -70,3 +70,7 @@ fi
 if [ -d ~/.emacs.d/bin ]; then
   export PATH=$PATH:~/.emacs.d/bin
 fi
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$PATH

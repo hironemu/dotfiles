@@ -22,3 +22,4 @@ emacs/bookmarks
 emacs/projectile-bookmarks.eld
 emacs/projectile.cache
 emacs/tramp
+emacs/recentf

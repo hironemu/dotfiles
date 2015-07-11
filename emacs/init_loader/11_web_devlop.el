@@ -59,4 +59,7 @@
   )
 (add-hook 'web-mode-hook 'web-mode-hook)
 
-(setq js-indent-level 2)
+(defun my-js-mode-hook ()
+  (setq-default indent-tabs-mode nil)
+  (setq js-indent-level 2))
+(add-hook 'js-mode-hook 'my-js-mode-hook)
