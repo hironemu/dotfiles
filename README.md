@@ -24,8 +24,8 @@
 #### セットアップ
 
 	$ cd ~/.emacs.d
-	$ cask install
-	$ emacs -Q -l setup.el
+	#$ cask install
+	$ emacs -Q -l init.el
 
 #### その他
 

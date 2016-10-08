@@ -1,19 +1,21 @@
-;; for lancher
+;; for lancher (package-initialize)
 (unless load-file-name
   (cd (getenv "HOME")))
 
-;; Add load path of emacs lisps
-(add-to-list 'load-path (concat user-emacs-directory "elisps"))
+(require 'cl-lib)
 
-;; Emacs package system
-(require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
-(cask-initialize)
+(when load-file-name
+  (setq-default user-emacs-directory (file-name-directory load-file-name)))
+
+(load (concat user-emacs-directory "init-el-get.el"))
 
 ;; load environment variables
-(let ((envs '("PATH" "GOROOT" "GOPATH")))
-  (exec-path-from-shell-copy-envs envs))
+(custom-set-variables
+ '(exec-path-from-shell-check-startup-files nil))
+(exec-path-from-shell-copy-envs '("PATH" "GOROOT" "GOPATH"))
+
 
 ;; init-loader
-(require 'init-loader)
+(custom-set-variables
+ '(init-loader-show-log-after-init 'error-only))
 (init-loader-load (concat user-emacs-directory "init_loader"))
-(put 'upcase-region 'disabled nil)

@@ -12,6 +12,7 @@ projects.zsh
 *.swp
 *.dat
 emacs/.cask
+emacs/el-get
 emacs/elpa
 emacs/elisps
 emacs/ac-comphist.dat
