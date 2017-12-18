@@ -48,6 +48,8 @@
 (el-get-bundle haml-mode)
 (el-get-bundle jade-mode)
 (el-get-bundle go-mode)
+(el-get-bundle dougm/goflymake)
+(el-get-bundle go-eldoc)
 (el-get-bundle php-mode)
 (el-get-bundle rvm)
 (el-get-bundle ruby-block)
@@ -56,6 +58,9 @@
 (el-get-bundle swift-mode)
 (el-get-bundle code-mancers/rspec-simple)
 (el-get-bundle csharp-mode)
+(el-get-bundle jedi)
+(el-get-bundle py-autopep8)
+(el-get-bundle py-isort)
 ;(el-get-bundle omnisharp)
 
 ;;;; markup language
@@ -97,7 +102,22 @@
 (el-get-bundle moe-theme)
 (el-get-bundle exec-path-from-shell)
 (el-get-bundle anzu)
-;(el-get-bundle redo+)
+(el-get-bundle emacswiki:redo+)
 (el-get-bundle dash-at-point)
 (el-get-bundle powerline)
 
+;
+(el-get-bundle japanese-holidays)
+
+;;; TypeScript
+(el-get-bundle typescript-mode)
+(el-get-bundle tide)
+;; (use-package tide
+;;   :config
+;;   (defun typescript-mode-hooks-for-tide ()
+;;     (tide-setup)
+;;     (flycheck-mode t)
+;;     (setq flycheck-check-syntax-automatically '(save mode-enabled))
+;;     (eldoc-mode t)
+;;     (company-mode-on))
+;;   (add-hook 'typescript-mode-hook 'typescript-mode-hooks-for-tide))

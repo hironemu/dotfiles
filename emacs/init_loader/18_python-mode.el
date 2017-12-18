@@ -1,0 +1,10 @@
+(defun python-mode-hooks ()
+  (jedi:setup)
+  (setq jedi:complete-on-dot t)
+  (define-key python-mode-map (kbd "<C-tab>") 'jedi:complete)
+  (setq py-autopep8-options '("--max-line-length=80"))
+  (setq flycheck-flake8-maximum-line-length 80)
+  )
+(add-hook 'python-mode-hook 'python-mode-hooks)
+
+(add-hook 'before-save-hook 'py-isort-before-save)

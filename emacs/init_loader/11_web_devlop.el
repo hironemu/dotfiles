@@ -47,15 +47,20 @@
 (add-to-list 'auto-mode-alist '("\\.as[cp]x$"   . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?$"     . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue$"       . web-mode))
 
 ;;; インデント数
 (defun web-mode-hook ()
   "Hooks for Web mode."
   (setq indent-tabs-mode nil)
-  (setq web-mode-markup-indent-offset 2) ;; html indent
-  (setq web-mode-css-indent-offset 2)    ;; css indent
-  (setq web-mode-code-indent-offset 2)   ;; script indent(js,php,etc..)
+  (setq web-mode-markup-indent-offset 2)     ;; html indent
+  (setq web-mode-css-indent-offset 2)        ;; css indent
+  (setq web-mode-code-indent-offset 2)       ;; script indent(js,php,etc..)
   (define-key web-mode-map  (kbd "C-;") nil) ;; C-;は無効にする
+  (setq web-mode-script-padding 0)           ;; <script>内のインデント
+  (setq web-mode-style-padding 0)            ;; <style>内のインデント
+  (setq web-mode-engines-alist
+        '(("django"    . "\\.html\\'")))
   )
 (add-hook 'web-mode-hook 'web-mode-hook)
 

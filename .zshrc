@@ -74,3 +74,44 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$PATH
+if [ -x '/usr/libexec/path_helper' ]; then
+  eval $(/usr/libexec/path_helper -s)
+fi
+# for Node.js
+if [ -d "$HOME/.nodebrew/current/bin" ]; then
+  export PATH=$HOME/.nodebrew/current/bin:$PATH
+fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/dev/google-cloud-sdk/path.zsh.inc" ]; then source $HOME/dev/google-cloud-sdk/path.zsh.inc; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/dev/google-cloud-sdk/completion.zsh.inc" ]; then source $HOME/dev/google-cloud-sdk/completion.zsh.inc; fi
+
+# for Azure CLI
+if [ -f "$HOME/lib/azure-cli/az.completion" ]; then
+  source $HOME/lib/azure-cli/az.completion
+fi
+
+# for python
+if [ -d "$HOME/.pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+fi
+if [ -x "`which pyenv`" ]; then
+  eval "$(pyenv init -)"
+fi
+
+# for postgresql
+if [ -d '/usr/local/opt/postgresql@9.5/bin' ]; then
+  export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
+fi
+
+if [ -d '/usr/local/Cellar/openssl/1.0.2l/bin' ]; then
+  export PATH="$PATH:/usr/local/Cellar/openssl/1.0.2l/bin"
+fi
+
+# for local path
+if [ -d "$HOME/bin" ]; then
+  export PATH=$PATH:$HOME/bin
+fi
