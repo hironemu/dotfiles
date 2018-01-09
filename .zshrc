@@ -34,9 +34,22 @@ plugins=(git git-flow)
 
 source $ZSH/oh-my-zsh.sh
 
+if [ -x '/usr/libexec/path_helper' ]; then
+  eval $(/usr/libexec/path_helper -s)
+fi
+
 # Customize to your needs...
 
-if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; rvm use default ; fi
+# if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; rvm use default ; fi
+if [[ -x `which rbenv` ]]; then eval "$(rbenv init -)"; fi
+
+# for Java
+if [ -f "/System/Library/Frameworks/JavaVM.framework/Versions/A/Commands/java_home" ]; then
+  # "1.8" for Java8
+  # "9"   for Java9
+  export JAVA_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/A/Commands/java_home -v "1.8"`
+  PATH=${JAVA_HOME}/bin:${PATH}
+fi
 
 # EC2
 if [ -d ~/.ec2 ]; then
@@ -57,6 +70,7 @@ if [ -x "`which go`" ]; then
 fi
 
 # for Direnv
+export EDITOR=vim
 if [ -x "`which direnv`" ]; then
   eval "$(direnv hook zsh)"
 fi
@@ -74,19 +88,16 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$PATH
-if [ -x '/usr/libexec/path_helper' ]; then
-  eval $(/usr/libexec/path_helper -s)
-fi
 # for Node.js
 if [ -d "$HOME/.nodebrew/current/bin" ]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
 fi
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/dev/google-cloud-sdk/path.zsh.inc" ]; then source $HOME/dev/google-cloud-sdk/path.zsh.inc; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/dev/google-cloud-sdk/completion.zsh.inc" ]; then source $HOME/dev/google-cloud-sdk/completion.zsh.inc; fi
+
 
 # for Azure CLI
 if [ -f "$HOME/lib/azure-cli/az.completion" ]; then
@@ -115,3 +126,4 @@ fi
 if [ -d "$HOME/bin" ]; then
   export PATH=$PATH:$HOME/bin
 fi
+
