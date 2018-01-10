@@ -89,7 +89,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export PATH=$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/platform-tools:$PATH
 # for Node.js
-if [ -d "$HOME/.nodebrew/current/bin" ]; then
+if [ -d "$HOME/.nodebrew" ]; then
   export PATH=$HOME/.nodebrew/current/bin:$PATH
 fi
 # The next line updates PATH for the Google Cloud SDK.
